@@ -8,9 +8,9 @@ public class GPSNode {
 
 	private GPSNode parent;
 
-	private Integer cost;
+	private int cost;
 
-	public GPSNode(GPSState state, Integer cost) {
+	public GPSNode(GPSState state, int cost) {
 		super();
 		this.state = state;
 		this.cost = cost;
@@ -28,7 +28,7 @@ public class GPSNode {
 		return state;
 	}
 
-	public Integer getCost() {
+	public int getCost() {
 		return cost;
 	}
 
