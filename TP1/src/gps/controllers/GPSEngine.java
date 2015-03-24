@@ -1,4 +1,4 @@
-package gps;
+package gps.controllers;
 
 import gps.exceptions.NotAppliableException;
 import gps.model.GPSProblem;

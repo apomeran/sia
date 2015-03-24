@@ -134,7 +134,7 @@ public class E2Problem implements GPSProblem {
 	}
 
 	@Override
-	public int getHValue(GPSState state) {
+	public Integer getHValue(GPSState state) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

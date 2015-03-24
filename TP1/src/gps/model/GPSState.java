@@ -1,4 +1,4 @@
-package gps.api;
+package gps.model;
 
 
 /**

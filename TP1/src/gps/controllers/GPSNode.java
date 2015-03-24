@@ -1,3 +1,4 @@
+package gps.controllers;
 
 import gps.model.GPSState;
 
