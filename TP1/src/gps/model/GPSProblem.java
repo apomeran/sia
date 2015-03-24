@@ -20,8 +20,7 @@ public interface GPSProblem {
 	GPSState getGoalState();
 
 	
-	/**
-	 * Provides the list of all the rules that the problem involves. 
+	/**Provides the list of all the rules that the problem involves. 
 	 * These rules are state independent.
 	 * @return The initial state of the problem to be solved.
 	 */	
@@ -32,6 +31,6 @@ public interface GPSProblem {
 	 * @param state The state where the Heuristic should be computed.
 	 * @return The value of the Heuristic.
 	 */
-	int getHValue(GPSState state);
+	Integer getHValue(GPSState state);
 
 }

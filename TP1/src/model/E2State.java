@@ -11,19 +11,19 @@ public class E2State implements GPSState{
 	
 	// The Up, Right color pair lookup table. The short is formated to save the TileId in the first 8 bits and the rotation on the last 4 bits.
 	public static short[][][] LOOK_UP_TABLE;
-	public static Tile[] TILES;
+	public static Tile[] BOARD;
 	
-	public static void LoadTiles(Tile[] tiles, int size, int numColors) {
+	public static void LoadTiles(Tile[] board, int size, int numColors) {
 		SIZE = size;
 		NUM_COLORS = numColors;
 		LOOK_UP_TABLE = new short[NUM_COLORS][NUM_COLORS][32];
-		E2State.TILES = tiles;
+		E2State.BOARD = board;
 		
 		short[][] lookUpTableCurrentSizes = new short[NUM_COLORS][NUM_COLORS]; // saves the array's current sizes to know in what position to insert!
 		
-		for (short tileId = 0; tileId < tiles.length ; tileId++) {
+		for (short tileId = 0; tileId < board.length ; tileId++) {
 			for (short i=0; i<TileRotation.values().length ;i++) {
-				Tile tile = tiles[tileId];
+				Tile tile = board[tileId];
 				int tileConfig = tile.rotations[i];
 				short upColor = (short)((tileConfig & 0xFF000000) >> 24), rightColor = (short)((tileConfig & 0x00FF0000) >> 16);
 				

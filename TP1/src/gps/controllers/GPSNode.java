@@ -1,4 +1,3 @@
-package gps.controllers;
 
 import gps.model.GPSState;
 
@@ -8,12 +7,15 @@ public class GPSNode {
 
 	private GPSNode parent;
 
-	private int cost;
+	private Integer cost;
 
-	public GPSNode(GPSState state, int cost) {
+	private Integer depth;
+
+	public GPSNode(GPSState state, Integer cost, Integer depth) {
 		super();
 		this.state = state;
 		this.cost = cost;
+		this.depth = depth;
 	}
 
 	public GPSNode getParent() {
@@ -28,7 +30,7 @@ public class GPSNode {
 		return state;
 	}
 
-	public int getCost() {
+	public Integer getCost() {
 		return cost;
 	}
 
@@ -42,5 +44,13 @@ public class GPSNode {
 			return this.state.toString();
 		}
 		return this.parent.getSolution() + "\n" + this.state;
+	}
+
+	public Integer getDepth() {
+		return depth;
+	}
+
+	public void setDepth(Integer depth) {
+		this.depth = depth;
 	}
 }

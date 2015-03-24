@@ -1,4 +1,5 @@
-package gps.model;
+package gps.api;
+
 
 /**
  * GPSState interface.

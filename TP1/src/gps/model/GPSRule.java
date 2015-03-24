@@ -2,6 +2,8 @@ package gps.model;
 
 import gps.exceptions.NotAppliableException;
 
+
+
 /**
  * GPSRule interface.
  */
