@@ -1,9 +1,9 @@
 package model;
 
-import gps.controllers.SearchStrategy;
-import gps.model.GPSProblem;
-import gps.model.GPSRule;
-import gps.model.GPSState;
+import gps.API.GPSProblem;
+import gps.API.GPSRule;
+import gps.API.GPSState;
+import gps.classes.SearchStrategy;
 
 import java.util.List;
 

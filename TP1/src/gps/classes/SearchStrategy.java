@@ -1,4 +1,4 @@
-package gps.controllers;
+package gps.classes;
 
 public enum SearchStrategy {
 	BFS,

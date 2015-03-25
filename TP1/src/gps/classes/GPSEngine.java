@@ -1,9 +1,9 @@
-package gps.controllers;
+package gps.classes;
 
+import gps.API.GPSProblem;
+import gps.API.GPSRule;
+import gps.API.GPSState;
 import gps.exceptions.NotAppliableException;
-import gps.model.GPSProblem;
-import gps.model.GPSRule;
-import gps.model.GPSState;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

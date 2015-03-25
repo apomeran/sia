@@ -1,6 +1,6 @@
 package model;
 
-import gps.model.GPSState;
+import gps.API.GPSState;
 
 public class E2State implements GPSState{
 	

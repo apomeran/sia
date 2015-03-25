@@ -1,4 +1,4 @@
-package gps.model;
+package gps.API;
 
 import java.util.List;
 

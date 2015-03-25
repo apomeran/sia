@@ -1,6 +1,6 @@
-package gps.controllers;
+package gps.classes;
 
-import gps.model.GPSState;
+import gps.API.GPSState;
 
 public class GPSNode {
 

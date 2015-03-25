@@ -1,9 +1,9 @@
 package model;
 
-import gps.controllers.GPSEngine;
-import gps.controllers.GPSNode;
-import gps.controllers.SearchStrategy;
-import gps.model.GPSProblem;
+import gps.API.GPSProblem;
+import gps.classes.GPSEngine;
+import gps.classes.GPSNode;
+import gps.classes.SearchStrategy;
 
 import java.util.List;
 
@@ -55,7 +55,7 @@ public class E2Engine extends GPSEngine {
 							+ getOpen().get(i).getCost()) {
 				i++;
 			}
-			if (problem.getHValue(node.getState()) < 100)
+//			if (problem.getHValue(node.getState()) < 1000)
 				getOpen().add(i, node);
 			break;
 		case Greedy:
