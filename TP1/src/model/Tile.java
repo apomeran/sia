@@ -22,11 +22,21 @@ public class Tile {
 	
 	private void init (int completeColors) {
 		rotations = new int[TileRotation.values().length];
-		lookUpPositions = new int[E2State.NUM_COLORS][E2State.NUM_COLORS];
+		lookUpPositions = new int[E2GlobalState.NUM_COLORS][E2GlobalState.NUM_COLORS];
 		
 		rotations[TileRotation.REGULAR.ordinal()] = completeColors;
 		rotations[TileRotation.CLOCKWISE.ordinal()] = (completeColors >>> 8) | (completeColors << 24);
 		rotations[TileRotation.DOUBLEROT.ordinal()] = (completeColors >>> 16) | (completeColors << 16);
 		rotations[TileRotation.COUNTERCLOCKWISE.ordinal()] = (completeColors >>> 24) | (completeColors << 8);
+	}
+	
+	public String toString() {
+		String str = "{ <TILE(up,right,down,left)>: ";
+		for (TileRotation rot : TileRotation.values()) {
+			int up= (rotations[rot.ordinal()] & 0xFF000000) >>> 24, right= (rotations[rot.ordinal()] & 0x00FF0000) >>> 16, down= (rotations[rot.ordinal()] & 0x0000FF00) >>> 8, left= (rotations[rot.ordinal()] & 0x000000FF);
+			str += rot.name() + "(" +up+ "," +right+ "," +down+ "," +left+ ") ";
+		}
+		str += "}";
+		return str;
 	}
 }

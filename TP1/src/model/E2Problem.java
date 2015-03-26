@@ -104,7 +104,7 @@ public class E2Problem implements GPSProblem {
 				numColors = 5;
 				break;
 		}
-		E2State.LoadTiles(tiles, dimension, numColors);	// sets up the static structures...
+		E2GlobalState.LoadTiles(tiles, dimension, numColors);	// sets up the static structures...
 		return new E2State();
 	}
 
