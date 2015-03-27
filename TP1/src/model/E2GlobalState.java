@@ -37,20 +37,26 @@ public class E2GlobalState {
 		}
 	}
 	
-	public static short[] getTilesMatching(int up, int left, int[][] lookUpTableState) {
-		short[] availableTiles = new short[32];
-		int availableTilesQty = 0;
-		
-		// Look for the tiles that match [up][left]
-		int availableTilesBitMask = lookUpTableState[up][left];
-		for (int shifts=0; (availableTilesBitMask >>> shifts) != 0 ; shifts++) {
-			if (((availableTilesBitMask >>> shifts) & 0x00000001) != 0) {
-				short tileIDandRot = LOOK_UP_TABLE[up][left][shifts];
-				availableTiles[availableTilesQty] = tileIDandRot;
-				availableTilesQty++;
-			}
+	
+	public static short[] getTilesMatching(int up, int right, int down, int left, int[][] lookUpTableState) {
+			short[] availableTiles = new short[32];
+			int availableTilesQty = 0;
+			
+			// Look for the tiles that match [up][left]
+			int availableTilesBitMask = lookUpTableState[up][left];
+			for (int shifts=0; (availableTilesBitMask >>> shifts) != 0 ; shifts++) {
+				if (((availableTilesBitMask >>> shifts) & 0x00000001) != 0) {
+					short tileIDandRot = LOOK_UP_TABLE[up][left][shifts];
+					int curTilePattern = E2GlobalState.TILES[(tileIDandRot & 0xFF00) >>> 8].rotations[tileIDandRot & 0x000F];
+					
+					if ( ( down == 0 || down == (curTilePattern & 0x0000FF00) ) && (right == 0 || right == (curTilePattern & 0x00FF0000) ) ) {
+						availableTiles[availableTilesQty] = tileIDandRot;
+						availableTilesQty++;
+					}
+				}
+			}		
+	
+			return (availableTilesQty != 0)? availableTiles : null;
 		}
-		return (availableTilesQty != 0)? availableTiles : null;
-	}
 	
 }
