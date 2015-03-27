@@ -4,7 +4,7 @@
 *.ear
 *.class
 *.pydevproject
-.project
+**/.project
 .metadata
 bin/**
 tmp/**
@@ -14,8 +14,10 @@ tmp/**/*
 *.swp
 *~.nib
 local.properties
-.classpath
-.settings/
+**/.classpath
+**/.settings/
+**/.idea/
+**/*.iml
 .loadpath
 .recommenders
 viejo
