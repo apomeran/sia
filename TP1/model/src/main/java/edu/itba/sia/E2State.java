@@ -53,16 +53,53 @@ public class E2State implements GPSState{
 		return false;
 	}
 	
+	public String toString() {
+		String str = "{ E2State: \n";
+		
+		str += "[ Board: \n";
+		for (int i=0; i<board.length ;i++) {
+			for (int j=0; j<board.length ;j++) {
+				int tilePattern = E2GlobalState.TILES[(board[i][j] & 0xFF00) >>> 8].rotations[board[i][j] & 0x000F];
+				str += "<" +((tilePattern & 0xFF000000) >> 24)+ "," +((tilePattern & 0x00FF0000) >> 16)+ "," +((tilePattern & 0x0000FF00) >> 8)+ "," +(tilePattern & 0x000000FF)+ ">";
+			}
+			str += "\n";
+		}
+		str += "]\n";
+		
+		str += "[ LookUpTableState: \n";
+		for (int i=0; i<lookUpTableState.length ;i++) {
+			for (int j=0; j<lookUpTableState.length ;j++) {
+				str += Integer.toBinaryString(lookUpTableState[i][j]) + " ";
+			}
+			str += "\n";
+		}
+		str += "]\n";
+		
+		str += "}";
+		
+		return str;
+	}
+	
 	// ------- HEURISTICS ---------------------------------------------------------
 	
-	// check if any of the missing tiles in the board has a pattern that no remaining tile can match
+	// Check if any of the missing tiles in the board has a pattern that no remaining tile can match
 	public int firstHeuristic() {
 		
 	}
 	
-	// a board is as good as remaining sides + remaining colors
+	// remaining tiles + open edges
 	public int secondHeuristic() {
 		
+	}
+	
+	// remaining colors
+	public int thirdHeuristic() {
+		return E2GlobalState.getRemainingColors(lookUpTableState);
+	}
+	
+	// all 3 heuristics combined
+	public int fourthHeuristic() {
+		return firstHeuristic() + secondHeuristic() + (thirdHeuristic() *10);
 	}
 
 }

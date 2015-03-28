@@ -1,5 +1,7 @@
 package edu.itba.sia;
 
+import java.util.Arrays;
+
 public class E2GlobalState {
 
 	public static int SIZE;
@@ -54,9 +56,51 @@ public class E2GlobalState {
 						availableTilesQty++;
 					}
 				}
-			}		
-	
-			return (availableTilesQty != 0)? availableTiles : null;
+			}
+			return (availableTilesQty != 0)? Arrays.copyOf(availableTiles, availableTilesQty) : null;
 		}
+	
+	public static int getRemainingColors(int[][] lookUpTableState) {
+		int sum = 0;
+		for (int i=0; i<lookUpTableState.length ;i++) {
+			for (int j=0; j<lookUpTableState.length ;j++) {
+				if (lookUpTableState[i][j] != 0){
+					sum++;
+					break;
+				}
+			}
+		}
+		return sum;
+	}
+	
+	public String toString() {
+		String str;
+		if (LOOK_UP_TABLE == null || TILES == null) {
+			str = "E2GlobalState Initialization Failed!";
+		} else {
+			str = "{ E2GlobalState: \n";
+			
+			str += "[ LOOK_UP_TABLE: \n";
+			for (int i=0; i<board.length ;i++) {
+				for (int j=0; j<board.length ;j++) {
+					for (short tileIdAndRot : LOOK_UP_TABLE[i][j]) {
+						int tilePattern = TILES[(tileIdAndRot & 0xFF00) >>> 8].rotations[tileIdAndRot & 0x000F];
+						str += "< ID:" +((tileIdAndRot & 0xFF00) >>> 8) +" ROT:" +(tileIdAndRot & 0x000F);
+						str += " TILE(" +((tilePattern & 0xFF000000) >> 24)+ "," +((tilePattern & 0x00FF0000) >> 16)+ "," +((tilePattern & 0x0000FF00) >> 8)+ "," +(tilePattern & 0x000000FF)+ ")>";
+					}
+				}
+				str += "\n";
+			}
+			str += "]\n";
+			
+			str += "[ TILES: \n";
+			for (int i=0; i<TILES.length ;i++)
+				str += "<" +i+ ": " +TILES[i][j].toString() + ">";
+			str += "]\n";
+			
+			str += "}";
+		}
+		return str;
+	}
 	
 }

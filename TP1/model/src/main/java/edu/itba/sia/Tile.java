@@ -39,7 +39,7 @@ public class Tile {
 	}
 
     public int upColor() {
-        return (rotations[TileRotation.REGULAR.ordinal()] & 0xFF000000) >> 24;
+        return (rotations[TileRotation.REGULAR.ordinal()] & 0xFF000000) >>> 24;
     }
 
     public int rightColor() {

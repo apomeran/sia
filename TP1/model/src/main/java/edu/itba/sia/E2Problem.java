@@ -11,7 +11,6 @@ import edu.itba.sia.classes.SearchStrategy;
 public class E2Problem implements GPSProblem
 {
 
-
 	private static int dimension;
 	private static int heuristic;
     private static E2State state;
@@ -171,6 +170,10 @@ public class E2Problem implements GPSProblem
 				return e.firstHeuristic();
 			case 2:
 				return e.secondHeuristic();
+			case 3:
+				return e.thirdHeuristic();
+			case 4:
+				return e.fourthHeuristic();
 			default:
 				return e.firstHeuristic();
 		}
