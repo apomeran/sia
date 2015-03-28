@@ -2,6 +2,8 @@ package edu.itba.sia;
 
 import java.util.Arrays;
 
+import edu.itba.sia.enums.TileRotation;
+
 public class E2GlobalState {
 
 	public static int SIZE;

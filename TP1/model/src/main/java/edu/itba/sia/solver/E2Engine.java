@@ -1,4 +1,4 @@
-package edu.itba.sia;
+package edu.itba.sia.solver;
 
 import java.util.List;
 

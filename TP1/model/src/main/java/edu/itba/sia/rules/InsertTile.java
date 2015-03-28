@@ -4,9 +4,9 @@ import java.util.LinkedList;
 
 import edu.itba.sia.E2State;
 import edu.itba.sia.Tile;
-import edu.itba.sia.TileRotation;
 import edu.itba.sia.API.GPSRule;
 import edu.itba.sia.API.GPSState;
+import edu.itba.sia.enums.TileRotation;
 import edu.itba.sia.exceptions.NotAppliableException;
 
 public class InsertTile implements GPSRule {

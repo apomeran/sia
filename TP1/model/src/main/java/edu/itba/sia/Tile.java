@@ -1,5 +1,8 @@
 package edu.itba.sia;
 
+import edu.itba.sia.enums.Direction;
+import edu.itba.sia.enums.TileRotation;
+
 
 /*
  * For each rotation the structure is 8 bits each color (up (8bits), right (8bits), down (8bits), left (8bits) = 32 bits int total)...

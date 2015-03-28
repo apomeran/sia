@@ -1,13 +1,18 @@
-package edu.itba.sia;
+package edu.itba.sia.solver;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import edu.itba.sia.BoardBuilder;
+import edu.itba.sia.E2GlobalState;
+import edu.itba.sia.E2State;
+import edu.itba.sia.Tile;
 import edu.itba.sia.API.GPSProblem;
 import edu.itba.sia.API.GPSRule;
 import edu.itba.sia.API.GPSState;
 import edu.itba.sia.classes.SearchStrategy;
+import edu.itba.sia.enums.TileRotation;
 import edu.itba.sia.rules.InsertTile;
 import edu.itba.sia.rules.LoriInsertTile;
 

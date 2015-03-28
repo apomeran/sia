@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import edu.itba.sia.API.GPSState;
+import edu.itba.sia.enums.Direction;
 
 public class E2State implements GPSState {
 
