@@ -1,8 +1,6 @@
-package gps.API;
+package edu.itba.sia.API;
 
-import gps.exceptions.NotAppliableException;
-
-
+import edu.itba.sia.exceptions.NotAppliableException;
 
 /**
  * GPSRule interface.

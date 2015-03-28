@@ -1,8 +1,6 @@
-package builder;
+package edu.itba.sia;
 
 import java.util.Random;
-
-import model.Tile;
 
 public class BoardBuilder {
 

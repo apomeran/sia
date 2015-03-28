@@ -1,13 +1,14 @@
-package model;
-
-import gps.API.GPSProblem;
-import gps.API.GPSRule;
-import gps.API.GPSState;
-import gps.classes.SearchStrategy;
+package edu.itba.sia;
 
 import java.util.List;
 
-public class E2Problem implements GPSProblem {
+import edu.itba.sia.API.GPSProblem;
+import edu.itba.sia.API.GPSRule;
+import edu.itba.sia.API.GPSState;
+import edu.itba.sia.classes.SearchStrategy;
+
+public class E2Problem implements GPSProblem
+{
 
 
 	private static int dimension;

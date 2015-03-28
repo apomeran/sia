@@ -1,6 +1,6 @@
-package gps.classes;
+package edu.itba.sia.classes;
 
-import gps.API.GPSState;
+import edu.itba.sia.API.GPSState;
 
 public class GPSNode {
 

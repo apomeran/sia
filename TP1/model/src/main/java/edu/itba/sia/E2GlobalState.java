@@ -1,4 +1,4 @@
-package model;
+package edu.itba.sia;
 
 public class E2GlobalState {
 

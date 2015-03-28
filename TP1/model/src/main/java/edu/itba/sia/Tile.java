@@ -1,4 +1,4 @@
-package model;
+package edu.itba.sia;
 
 /*
  * For each rotation the structure is 8 bits each color (up (8bits), right (8bits), down (8bits), left (8bits) = 32 bits int total)...

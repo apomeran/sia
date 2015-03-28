@@ -1,8 +1,8 @@
-package model;
+package edu.itba.sia;
 
-import gps.API.GPSRule;
-import gps.API.GPSState;
-import gps.exceptions.NotAppliableException;
+import edu.itba.sia.API.GPSRule;
+import edu.itba.sia.API.GPSState;
+import edu.itba.sia.exceptions.NotAppliableException;
 
 public class E2RuleInsertTile implements GPSRule {
 
@@ -20,7 +20,8 @@ public class E2RuleInsertTile implements GPSRule {
 	}
 
 	@Override
-	public GPSState evalRule(GPSState state) throws NotAppliableException {
+	public GPSState evalRule(GPSState state) throws NotAppliableException
+    {
 		E2State e2State = (E2State) state;
 		int[][] board = e2State.board;
 		

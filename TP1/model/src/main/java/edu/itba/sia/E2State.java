@@ -1,6 +1,6 @@
-package model;
+package edu.itba.sia;
 
-import gps.API.GPSState;
+import edu.itba.sia.API.GPSState;
 
 public class E2State implements GPSState{
 	

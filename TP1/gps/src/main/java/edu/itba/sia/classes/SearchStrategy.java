@@ -1,4 +1,4 @@
-package gps.classes;
+package edu.itba.sia.classes;
 
 public enum SearchStrategy {
 	BFS,

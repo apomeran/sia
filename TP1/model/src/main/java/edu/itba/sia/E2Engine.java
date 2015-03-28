@@ -1,13 +1,14 @@
-package model;
-
-import gps.API.GPSProblem;
-import gps.classes.GPSEngine;
-import gps.classes.GPSNode;
-import gps.classes.SearchStrategy;
+package edu.itba.sia;
 
 import java.util.List;
 
-public class E2Engine extends GPSEngine {
+import edu.itba.sia.API.GPSProblem;
+import edu.itba.sia.classes.GPSEngine;
+import edu.itba.sia.classes.GPSNode;
+import edu.itba.sia.classes.SearchStrategy;
+
+public class E2Engine extends GPSEngine
+{
 	final static int initialDepth = 1;
 
 	private int maxIDFSdepth;

@@ -1,13 +1,13 @@
-package gps.classes;
-
-import gps.API.GPSProblem;
-import gps.API.GPSRule;
-import gps.API.GPSState;
-import gps.exceptions.NotAppliableException;
+package edu.itba.sia.classes;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import edu.itba.sia.API.GPSProblem;
+import edu.itba.sia.API.GPSRule;
+import edu.itba.sia.API.GPSState;
+import edu.itba.sia.exceptions.NotAppliableException;
 
 public abstract class GPSEngine {
 
