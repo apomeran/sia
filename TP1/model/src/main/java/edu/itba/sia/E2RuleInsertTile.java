@@ -7,7 +7,7 @@ import edu.itba.sia.exceptions.NotAppliableException;
 public class E2RuleInsertTile implements GPSRule {
 
 	// TODO: colors removed heuristic...
-	private int colorsRemoved;
+	private int colorsRemoved = 0;
 	
 	@Override
 	public Integer getCost() {

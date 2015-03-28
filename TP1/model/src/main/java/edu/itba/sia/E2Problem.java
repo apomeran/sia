@@ -23,16 +23,16 @@ public class E2Problem implements GPSProblem
 
 		if (!debugging) {
 			if (args.length != 2 && args.length != 3) {
-				System.out.println("Wrong amount of parameters. Usage: <search method[BFS|DFS|ASTAR]> <#heuristic[1|2]> <dimension of the board[4|8]>");
+				System.out.println("Wrong amount of parameters. Usage: <search method[BFS|DFS|IDFS|ASTAR|GREEDY]> <#heuristic[1|2]> <dimension of the board[2|4|5|6]>");
 				return;
 			}
 			String searchMethod = args[0];
 			int dim = 0;
 			int heur = 0;
 			if (args.length == 2) {
-				if (!searchMethod.equals("BFS") && !searchMethod.equals("DFS")) {
-					System.out.println("Wrong search method. BFS and DFS don't use heuristics.");
-					System.out.println("Wrong amount of parameters. Usage: <search method[BFS|DFS|IDFS|ASTAR|GREEDY]> <#heuristic[1|2]> <dimension of the board[4|8]>");
+				if (!searchMethod.equals("BFS") && !searchMethod.equals("DFS") && !searchMethod.equals("IDFS")) {
+					System.out.println("Wrong search method. BFS, DFS and IDFS don't use heuristics.");
+					System.out.println("Wrong amount of parameters. Usage: <search method[BFS|DFS|IDFS|ASTAR|GREEDY]> <#heuristic[1|2]> <dimension of the board[2|4|5|6]>");
 					return;
 				}
 				try {
@@ -47,9 +47,9 @@ public class E2Problem implements GPSProblem
 				}
 			} else if (args.length == 3) {
 
-				if (!searchMethod.equals("ASTAR")) {
-					System.out.println("Wrong search method. Only Astar uses heuristics.");
-					System.out.println("Wrong amount of parameters. Usage: <search method[BFS|DFS|IDFS|ASTAR|GREEDY]> <#heuristic[1|2]> <dimension of the board[4|8]>");
+				if (!searchMethod.equals("GREEDY") && !searchMethod.equals("ASTAR")) {
+					System.out.println("Wrong search method. Only Greedy and Astar use heuristics.");
+					System.out.println("Wrong amount of parameters. Usage: <search method[BFS|DFS|IDFS|ASTAR|GREEDY]> <#heuristic[1|2]> <dimension of the board[2|4|5|6]>");
 					return;
 				}
 				try {
@@ -63,7 +63,7 @@ public class E2Problem implements GPSProblem
 					System.out.println("Wrong parameter: first parameter should be 1 or 2, indicating the first or second heuristic");
 				}
 				if (dim < 2 || dim > 6) {
-					System.out.println("The board dimensions available are 4 or 8");
+					System.out.println("The board dimensions available are 2, 4, 5, 6");
 					return;
 				}
 			}
@@ -77,6 +77,10 @@ public class E2Problem implements GPSProblem
 				strategy = SearchStrategy.DFS;
 			if (searchMethod.equals("ASTAR"))
 				strategy = SearchStrategy.AStar;
+			if (searchMethod.equals("IDFS"))
+				strategy = SearchStrategy.IDFS;
+			if (searchMethod.equals("GREEDY"))
+				strategy = SearchStrategy.Greedy;
 
 		}
 		long startTime = System.nanoTime();
