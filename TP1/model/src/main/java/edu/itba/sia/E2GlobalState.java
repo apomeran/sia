@@ -11,6 +11,10 @@ public class E2GlobalState {
 	// TileId in the first 8 bits and the rotation on the last 4 bits.
 	public static short[][][] LOOK_UP_TABLE;
 	public static Tile[] TILES;
+	
+	public static void setNUM_COLOR(int numColors){
+		NUM_COLORS = numColors;
+	}
 
 	public static void LoadTiles(Tile[] tiles, int size, int numColors) {
 		SIZE = size;
@@ -32,7 +36,7 @@ public class E2GlobalState {
 																				// insert!
 
 		for (short tileId = 0; tileId < tiles.length; tileId++) {
-			for (short i = 0; i < TileRotation.values().length; i++) {
+			for (short i = 0; i < TileRotation.values().length ; i++) {
 				Tile tile = tiles[tileId];
 				int tileConfig = tile.rotations[i];
 				short upColor = (short) ((tileConfig & 0xFF000000) >> 24), leftColor = (short) (tileConfig & 0x000000FF);
