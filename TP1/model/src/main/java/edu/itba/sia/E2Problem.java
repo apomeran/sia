@@ -42,7 +42,7 @@ public class E2Problem implements GPSProblem
 					System.out.println("Parameters should be numeric");
 					return;
 				}
-				if (dim < 2 || dim > 6) {
+				if (dim < 2 || dim > 8) {
 					System.out.println("The board dimensions available are 2, 4, 5, 6");
 					return;
 				}
@@ -63,7 +63,7 @@ public class E2Problem implements GPSProblem
 				if (heur != 1 && heur != 2) {
 					System.out.println("Wrong parameter: first parameter should be 1 or 2, indicating the first or second heuristic");
 				}
-				if (dim < 2 || dim > 6) {
+				if (dim < 2 || dim > 8) {
 					System.out.println("The board dimensions available are 2, 4, 5, 6");
 					return;
 				}
