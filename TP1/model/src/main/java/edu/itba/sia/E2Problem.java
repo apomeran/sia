@@ -93,22 +93,28 @@ public class E2Problem implements GPSProblem
 	
 	@Override
 	public GPSState getInitState() {
-		Tile[] tiles = new Tile[dimension*dimension];
 		int numColors;
 		switch (dimension) {
-			case 4:
-				// TODO: Generate 4*4 board...
-				numColors = 5;
-				break;
-			case 8:
-				// TODO: Generate 8*8 board...
-				numColors = 11;
-				break;
-			default:
-				// TODO: Generate 4*4 board...
-				numColors = 5;
-				break;
+            case 2:
+                numColors = 3;
+                break;
+            case 4:
+                numColors = 5;
+                break;
+            case 8:
+                numColors = 11;
+                break;
+            default:
+                numColors = 22;
+                break;
 		}
+        Tile[][] board = BoardBuilder.buildBoard(dimension, numColors);
+        Tile[] tiles = new Tile[dimension*dimension];
+        for (int i = 0; i < dimension; i ++) {
+            for (int j = 0; j < dimension; j++) {
+                tiles[i*dimension+j] = board[i][j];
+            }
+        }
 		E2GlobalState.LoadTiles(tiles, dimension, numColors);	// sets up the static structures...
 		return new E2State();
 	}
