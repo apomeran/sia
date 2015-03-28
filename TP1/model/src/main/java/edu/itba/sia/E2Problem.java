@@ -165,8 +165,15 @@ public class E2Problem implements GPSProblem
 
 	@Override
 	public Integer getHValue(GPSState state) {
-		// TODO Auto-generated method stub
-		return 0;
+		E2State e = (E2State) state;
+		switch(heuristic) {
+			case 1:
+				return e.firstHeuristic();
+			case 2:
+				return e.secondHeuristic();
+			default:
+				return e.firstHeuristic();
+		}
 	}
 
     private List<E2RuleInsertTile> generateRulesForPosition(int i, int j, E2State state) {

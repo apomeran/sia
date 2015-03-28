@@ -52,5 +52,17 @@ public class E2State implements GPSState{
 		// TODO: (OPTIMIZATION) check mirrored cases...
 		return false;
 	}
+	
+	// ------- HEURISTICS ---------------------------------------------------------
+	
+	// check if any of the missing tiles in the board has a pattern that no remaining tile can match
+	public int firstHeuristic() {
+		
+	}
+	
+	// a board is as good as remaining sides + remaining colors
+	public int secondHeuristic() {
+		
+	}
 
 }
