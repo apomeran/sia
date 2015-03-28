@@ -1,6 +1,7 @@
 package edu.itba.sia.solver;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -141,12 +142,18 @@ public class E2Problem implements GPSProblem {
 		for (Tile tile : tiles) {
 			this.tileList.add(tile);
 		}// structures...
-		return new E2State();
+
+		Collections.shuffle(tileList);
+		return new E2State(new Tile[E2GlobalState.SIZE][E2GlobalState.SIZE],
+				new int[E2GlobalState.NUM_COLORS][E2GlobalState.NUM_COLORS],
+				tileList);
 	}
 
 	@Override
 	public GPSState getGoalState() {
-		return new E2State() {
+		return new E2State(new Tile[E2GlobalState.SIZE][E2GlobalState.SIZE],
+				new int[E2GlobalState.NUM_COLORS][E2GlobalState.NUM_COLORS],
+				new LinkedList<Tile>()) {
 
 			@Override
 			public boolean compare(GPSState otherState) {

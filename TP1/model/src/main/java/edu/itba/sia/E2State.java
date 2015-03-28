@@ -14,11 +14,6 @@ public class E2State implements GPSState {
 
 	public List<Tile> remainingTiles = new LinkedList<Tile>();
 
-	public E2State() {
-		tileBoard = new Tile[E2GlobalState.SIZE][E2GlobalState.SIZE];
-		lookUpTableState = new int[E2GlobalState.NUM_COLORS][E2GlobalState.NUM_COLORS];
-	}
-
 	public E2State(Tile[][] board, int[][] lookUpTableState,
 			List<Tile> remainingTiles) {
 		this.tileBoard = board;
