@@ -1,5 +1,6 @@
 package edu.itba.sia;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import edu.itba.sia.API.GPSProblem;
@@ -13,6 +14,7 @@ public class E2Problem implements GPSProblem
 
 	private static int dimension;
 	private static int heuristic;
+    private static E2State state;
 	protected static SearchStrategy strategy = SearchStrategy.AStar;
 
 	public static void main(String[] args) {
@@ -140,8 +142,25 @@ public class E2Problem implements GPSProblem
 
 	@Override
 	public List<GPSRule> getRules() {
-		// TODO Auto-generated method stub
-		return null;
+        List<GPSRule> rules = new LinkedList<GPSRule>();
+
+        int maxDefined = 0, curPattern = 0, lastI = 0, lastJ = 0;
+        for (int i=0; i<state.board.length ;i++) {
+            for (int j=0; j<state.board.length ;j++) {
+                curPattern = calculatePatternFor(i, j, state.board);
+                int curDefined = (((curPattern & 0xFF000000) != 0)? 1:0) + (((curPattern & 0x00FF0000) != 0)? 1:0) + (((curPattern & 0x0000FF00) != 0)? 1:0) + (((curPattern & 0x000000FF) != 0)? 1:0);
+                if (state.board[i][j] == 0) {
+                    if (curDefined <= maxDefined)
+                        rules.addAll(generateRulesForPosition(lastI, lastJ, state));
+                    else {
+                        lastI = i;
+                        lastJ = j;
+                        maxDefined = curDefined;
+                    }
+                }
+            }
+        }
+        return rules;
 	}
 
 	@Override
@@ -149,5 +168,31 @@ public class E2Problem implements GPSProblem
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+    private List<E2RuleInsertTile> generateRulesForPosition(int i, int j, E2State state) {
+        int pattern = calculatePatternFor(i, j, state.board);
+        int up= pattern & 0xFF000000, right= pattern & 0x00FF0000, down= pattern & 0x0000FF00, left= pattern & 0x000000FF;
+
+        short[] matchingTiles = E2GlobalState.getTilesMatching(up, right, down, left, state.lookUpTableState);
+
+        List<E2RuleInsertTile> rules = new LinkedList<E2RuleInsertTile>();
+        if (matchingTiles == null) { // No tiles match the search criteria...
+            return rules;
+        } else {
+            for (short tile : matchingTiles) {
+                rules.add(new E2RuleInsertTile(tile, i, j));
+            }
+            return rules;
+        }
+    }
+
+    private int calculatePatternFor(int i, int j, int[][] board) {
+        int up, right, down, left;
+        up    =                   (i-1 < 0)? 0 : ((board[i-1][j] & 0x0000FF00) <<  16);
+        right = (j+1 == E2GlobalState.SIZE)? 0 : ((board[i][j+1] & 0x000000FF) <<  16);
+        down  = (i+1 == E2GlobalState.SIZE)? 0 : ((board[i+1][j] & 0xFF000000) >>> 16);
+        left  =                   (j-1 < 0)? 0 : ((board[i][j-1] & 0x00FF0000) >>> 16);
+        return (up | right | down | left);
+    }
 
 }
