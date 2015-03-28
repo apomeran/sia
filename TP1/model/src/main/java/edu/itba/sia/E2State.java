@@ -1,86 +1,51 @@
 package edu.itba.sia;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import edu.itba.sia.API.GPSState;
 
 public class E2State implements GPSState {
 
+	public Tile[][] tileBoard;
 	public int[][] board;
 	public int[][] lookUpTableState;
 
+	public List<Tile> remainingTiles = new LinkedList<Tile>();
+
 	public E2State() {
-		board = new int[E2GlobalState.SIZE][E2GlobalState.SIZE];
+		tileBoard = new Tile[E2GlobalState.SIZE][E2GlobalState.SIZE];
 		lookUpTableState = new int[E2GlobalState.NUM_COLORS][E2GlobalState.NUM_COLORS];
 	}
 
-	public void addTile(Tile tile, int rot, int i, int j) {
-		// TODO: implement...
-		/*
-		 * 1) add tile with rot in board[i][j] 2) remove tile from
-		 * lookUpTableState using tile.lookUpPositions
-		 */
+	public E2State(Tile[][] board, int[][] lookUpTableState,
+			List<Tile> remainingTiles) {
+		this.tileBoard = board;
+		this.lookUpTableState = lookUpTableState;
+		this.remainingTiles = remainingTiles;
+
 	}
 
 	public boolean compare(GPSState state) {
 
-		if (state.getClass() != this.getClass()) {
+		if (state == null)
 			return false;
-		} else {
-			E2State e2State = (E2State) state;
-			if (!sameMatrix(this.board, e2State.board))
-				return false;
-			if (!sameMatrix(this.lookUpTableState, e2State.lookUpTableState))
-				return false;
-			if (!equivalentMatrix(this.lookUpTableState,
-					e2State.lookUpTableState))
-				return false;
-		}
-		return true;
-	}
-
-	private boolean sameMatrix(int[][] mat1, int[][] mat2) {
-		if (mat1.length != mat2.length || mat1[0].length != mat2[0].length)
-			return false;
-
-		for (int i = 0; i < mat1.length; i++)
-			for (int j = 0; j < mat1.length; j++)
-				if (mat1[i][j] != mat2[i][j])
-					return false;
-		return true;
-	}
-
-	private boolean equivalentMatrix(int[][] mat1, int[][] mat2) {
-		// TODO: (OPTIMIZATION) check mirrored cases...
-		return false;
+		E2State otherState = (E2State) state;
+		return (tileBoard.equals(otherState.tileBoard) && remainingTiles.size() == otherState
+				.getRemainingTiles().size());
 	}
 
 	public String toString() {
-		String str = "{ E2State: \n";
-
-		str += "[ Board: \n";
-		for (int i = 0; i < board.length; i++) {
-			for (int j = 0; j < board.length; j++) {
-				int tilePattern = E2GlobalState.TILES[(board[i][j] & 0xFF00) >>> 8].rotations[board[i][j] & 0x000F];
-				str += "<" + ((tilePattern & 0xFF000000) >> 24) + ","
-						+ ((tilePattern & 0x00FF0000) >> 16) + ","
-						+ ((tilePattern & 0x0000FF00) >> 8) + ","
-						+ (tilePattern & 0x000000FF) + ">";
+		String s = "";
+		for (int i = 0; i < tileBoard.length; i++) {
+			for (int j = 0; j < tileBoard.length; j++) {
+				String aux = tileBoard[i][j] == null ? "       " : tileBoard[i][j]
+						.toString();
+				s += "[" + aux + "] ";
 			}
-			str += "\n";
+			s += '\n';
 		}
-		str += "]\n";
-
-		str += "[ LookUpTableState: \n";
-		for (int i = 0; i < lookUpTableState.length; i++) {
-			for (int j = 0; j < lookUpTableState.length; j++) {
-				str += Integer.toBinaryString(lookUpTableState[i][j]) + " ";
-			}
-			str += "\n";
-		}
-		str += "]\n";
-
-		str += "}";
-
-		return str;
+		return s;
 	}
 
 	// ------- HEURISTICS
@@ -105,6 +70,44 @@ public class E2State implements GPSState {
 	// all 3 heuristics combined
 	public int fourthHeuristic() {
 		return firstHeuristic() + secondHeuristic() + (thirdHeuristic() * 10);
+	}
+
+	public List<Tile> getRemainingTiles() {
+		return remainingTiles;
+	}
+
+	public Tile[][] getBoard() {
+		return tileBoard;
+	}
+
+	public int[][] getLookUpTableState() {
+		return lookUpTableState;
+	}
+
+	public boolean insertTile(Tile tile, int row, int col) {
+		if (tileBoard[row][col] != null)
+			return false;
+		boolean valid = true;
+
+		if (col + 1 < E2GlobalState.SIZE) {
+			valid = tile.validMove(tileBoard[row][col + 1], Direction.RIGHT);
+		}
+		if (col - 1 >= 0) {
+			valid = valid
+					&& tile.validMove(tileBoard[row][col - 1], Direction.LEFT);
+		}
+		if (row - 1 >= 0) {
+			valid = valid
+					&& tile.validMove(tileBoard[row - 1][col], Direction.DOWN);
+		}
+		if (row + 1 < E2GlobalState.SIZE) {
+			valid = valid && tile.validMove(tileBoard[row + 1][col], Direction.UP);
+		}
+		if (valid) {
+			tileBoard[row][col] = tile;
+		}
+
+		return valid;
 	}
 
 }

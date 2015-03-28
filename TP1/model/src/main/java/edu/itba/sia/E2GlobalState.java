@@ -19,31 +19,30 @@ public class E2GlobalState {
 	public static void LoadTiles(Tile[] tiles, int size, int numColors) {
 		SIZE = size;
 		NUM_COLORS = numColors;
-		LOOK_UP_TABLE = new short[NUM_COLORS][NUM_COLORS][32];
+		LOOK_UP_TABLE = new short[NUM_COLORS + 1][NUM_COLORS + 1][32];
 		TILES = tiles;
 
-		short[][] lookUpTableCurrentSizes = new short[NUM_COLORS + 1 ][NUM_COLORS + 1]; // saves
-																				// the
-																				// array's
-																				// current
-																				// sizes
-																				// to
-																				// know
-																				// in
-																				// what
-																				// position
-																				// to
-																				// insert!
+		short[][] lookUpTableCurrentSizes = new short[NUM_COLORS + 1][NUM_COLORS + 1]; // saves
+		// the
+		// array's
+		// current
+		// sizes
+		// to
+		// know
+		// in
+		// what
+		// position
+		// to
+		// insert!
 
 		for (short tileId = 0; tileId < tiles.length; tileId++) {
 			for (short i = 0; i < TileRotation.values().length; i++) {
 				Tile tile = tiles[tileId];
-				int tileConfig = tile.rotations[i];
+				int tileConfig = tile.getRotations()[i];
 				short upColor = (short) ((tileConfig & 0xFF000000) >> 24), leftColor = (short) (tileConfig & 0x000000FF);
 
 				// the number of elements already added to the array for this
 				// color pair
-
 
 				short curArrSize = lookUpTableCurrentSizes[upColor][leftColor];
 				lookUpTableCurrentSizes[upColor][leftColor] = (short) (curArrSize + 1);
@@ -73,7 +72,7 @@ public class E2GlobalState {
 		for (int shifts = 0; (availableTilesBitMask >>> shifts) != 0; shifts++) {
 			if (((availableTilesBitMask >>> shifts) & 0x00000001) != 0) {
 				short tileIDandRot = LOOK_UP_TABLE[up][left][shifts];
-				int curTilePattern = E2GlobalState.TILES[(tileIDandRot & 0xFF00) >>> 8].rotations[tileIDandRot & 0x000F];
+				int curTilePattern = E2GlobalState.TILES[(tileIDandRot & 0xFF00) >>> 8].getRotations()[tileIDandRot & 0x000F];
 
 				if ((down == 0 || down == (curTilePattern & 0x0000FF00))
 						&& (right == 0 || right == (curTilePattern & 0x00FF0000))) {

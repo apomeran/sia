@@ -1,5 +1,6 @@
 package edu.itba.sia;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -7,6 +8,8 @@ import edu.itba.sia.API.GPSProblem;
 import edu.itba.sia.API.GPSRule;
 import edu.itba.sia.API.GPSState;
 import edu.itba.sia.classes.SearchStrategy;
+import edu.itba.sia.rules.InsertTile;
+import edu.itba.sia.rules.LoriInsertTile;
 
 public class E2Problem implements GPSProblem {
 
@@ -14,6 +17,7 @@ public class E2Problem implements GPSProblem {
 	private static int heuristic;
 	private static E2State state;
 	protected static SearchStrategy strategy = SearchStrategy.AStar;
+	List<Tile> tileList = new LinkedList<Tile>();
 
 	public static void main(String[] args) {
 
@@ -128,7 +132,10 @@ public class E2Problem implements GPSProblem {
 		}
 		E2GlobalState.LoadTiles(tiles, dimension, numColors); // sets up the
 																// static
-																// structures...
+
+		for (Tile tile : tiles) {
+			this.tileList.add(tile);
+		}// structures...
 		return new E2State();
 	}
 
@@ -137,22 +144,13 @@ public class E2Problem implements GPSProblem {
 		return new E2State() {
 
 			@Override
-			public boolean compare(GPSState state) {
-				if (state == null)
-					return false;
-				E2State e2State = (E2State) state;
-				int[][] board = e2State.board;
-				for (int i = 0; i < board.length; i++)
-					for (int j = 0; j < board.length; j++)
-						if (board[i][j] == 0)
-							return false;
-				return true;
+			public boolean compare(GPSState otherState) {
+				return ((E2State) otherState).getRemainingTiles().isEmpty();
 			}
 		};
 	}
 
-	@Override
-	public List<GPSRule> getRules() {
+	public List<GPSRule> getLoriRules() {
 		List<GPSRule> rules = new LinkedList<GPSRule>();
 
 		int maxDefined = 0, curPattern = 0, lastI = 0, lastJ = 0;
@@ -195,7 +193,7 @@ public class E2Problem implements GPSProblem {
 		}
 	}
 
-	private List<E2RuleInsertTile> generateRulesForPosition(int i, int j,
+	private List<LoriInsertTile> generateRulesForPosition(int i, int j,
 			E2State state) {
 		int pattern = calculatePatternFor(i, j, state.board);
 		int up = pattern & 0xFF000000, right = pattern & 0x00FF0000, down = pattern & 0x0000FF00, left = pattern & 0x000000FF;
@@ -203,12 +201,12 @@ public class E2Problem implements GPSProblem {
 		short[] matchingTiles = E2GlobalState.getTilesMatching(up, right, down,
 				left, state.lookUpTableState);
 
-		List<E2RuleInsertTile> rules = new LinkedList<E2RuleInsertTile>();
+		List<LoriInsertTile> rules = new LinkedList<LoriInsertTile>();
 		if (matchingTiles == null) { // No tiles match the search criteria...
 			return rules;
 		} else {
 			for (short tile : matchingTiles) {
-				rules.add(new E2RuleInsertTile(tile, i, j));
+				rules.add(new LoriInsertTile(tile, i, j));
 			}
 			return rules;
 		}
@@ -223,6 +221,35 @@ public class E2Problem implements GPSProblem {
 				: ((board[i + 1][j] & 0xFF000000) >>> 16);
 		left = (j - 1 < 0) ? 0 : ((board[i][j - 1] & 0x00FF0000) >>> 16);
 		return (up | right | down | left);
+	}
+
+	@Override
+	public List<GPSRule> getRules() {
+		List<GPSRule> rules = new ArrayList<GPSRule>();
+		for (Tile t : tileList) {
+			for (int i = 0; i < dimension; i++) {
+				for (int j = 0; j < dimension; j++) {
+
+					rules.add(new InsertTile(new Tile(t.upColor(), t
+							.rightColor(), t.downColor(), t.leftColor()),
+							TileRotation.REGULAR, i, j));
+
+					rules.add(new InsertTile(new Tile(t.upColor(), t
+							.rightColor(), t.downColor(), t.leftColor()),
+							TileRotation.CLOCKWISE, i, j));
+
+					rules.add(new InsertTile(new Tile(t.upColor(), t
+							.rightColor(), t.downColor(), t.leftColor()),
+							TileRotation.COUNTERCLOCKWISE, i, j));
+
+					rules.add(new InsertTile(new Tile(t.upColor(), t
+							.rightColor(), t.downColor(), t.leftColor()),
+							TileRotation.DOUBLEROT, i, j));
+				}
+			}
+		}
+
+		return rules;
 	}
 
 }
