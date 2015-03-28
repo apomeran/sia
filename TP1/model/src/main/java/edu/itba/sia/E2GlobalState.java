@@ -22,7 +22,7 @@ public class E2GlobalState {
 		LOOK_UP_TABLE = new short[NUM_COLORS][NUM_COLORS][32];
 		TILES = tiles;
 
-		short[][] lookUpTableCurrentSizes = new short[NUM_COLORS][NUM_COLORS]; // saves
+		short[][] lookUpTableCurrentSizes = new short[NUM_COLORS + 1 ][NUM_COLORS + 1]; // saves
 																				// the
 																				// array's
 																				// current
@@ -44,15 +44,6 @@ public class E2GlobalState {
 				// the number of elements already added to the array for this
 				// color pair
 
-				/*
-				 * FIX FOR INDEX !
-				 */
-				if (upColor > 0)
-					upColor--;
-				if (leftColor > 0)
-					leftColor--;
-
-				/* END FIX */
 
 				short curArrSize = lookUpTableCurrentSizes[upColor][leftColor];
 				lookUpTableCurrentSizes[upColor][leftColor] = (short) (curArrSize + 1);
