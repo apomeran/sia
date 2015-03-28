@@ -35,7 +35,8 @@ public class Tile {
 	}
 
 	public String toString() {
-		String str = "{ <TILE(up,right,down,left)>: ";
+	//	String str = "{ <TILE(up,right,down,left)>: ";
+		String str = "";
 		for (TileRotation rot : TileRotation.values()) {
 			int up = (rotations[rot.ordinal()] & 0xFF000000) >>> 24, right = (rotations[rot
 					.ordinal()] & 0x00FF0000) >>> 16, down = (rotations[rot
@@ -43,6 +44,7 @@ public class Tile {
 					.ordinal()] & 0x000000FF);
 			str += rot.name() + "(" + up + "," + right + "," + down + ","
 					+ left + ") ";
+			return str;
 		}
 		str += "}";
 		return str;

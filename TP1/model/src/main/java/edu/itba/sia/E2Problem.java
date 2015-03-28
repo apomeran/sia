@@ -122,7 +122,7 @@ public class E2Problem implements GPSProblem
 
 	@Override
 	public GPSState getGoalState() {
-		return new GPSState(){
+		return new E2State(){
 
 			@Override
 			public boolean compare(GPSState state) {
