@@ -50,12 +50,57 @@ public class E2State implements GPSState {
 	// Check if any of the missing tiles in the board has a pattern that no
 	// remaining tile can match
 	public int firstHeuristic() {
-		return 0;
+        return 0;
 	}
 
-	// remaining tiles + open edges
+	// Open edges
 	public int secondHeuristic() {
-		return 0;
+        int total = 0;
+        int size = tileBoard.length;
+
+        //Corners
+        total += (tileBoard[0][1] == null ? 1 : 0);
+        total += (tileBoard[1][0] == null ? 1 : 0);
+        total += (tileBoard[size-1][1] == null ? 1 : 0);
+        total += (tileBoard[size-2][0] == null ? 1 : 0);
+        total += (tileBoard[1][size-1] == null ? 1 : 0);
+        total += (tileBoard[0][size-2] == null ? 1 : 0);
+        total += (tileBoard[size-2][size-1] == null ? 1 : 0);
+        total += (tileBoard[size-1][size-2] == null ? 1 : 0);
+
+        //Edges
+        for (int i = 1; i < size - 1; i++) {
+            total += (tileBoard[0][i-1] == null ? 1 : 0);
+            total += (tileBoard[0][i+1] == null ? 1 : 0);
+            total += (tileBoard[1][i] == null ? 1 : 0);
+        }
+        for (int i = 1; i < size - 1; i++) {
+            total += (tileBoard[i-1][0] == null ? 1 : 0);
+            total += (tileBoard[i+1][0] == null ? 1 : 0);
+            total += (tileBoard[i][1] == null ? 1 : 0);
+        }
+        for (int i = size - 2; i > 0; i--) {
+            total += (tileBoard[size-1][i-1] == null ? 1 : 0);
+            total += (tileBoard[size-1][i+1] == null ? 1 : 0);
+            total += (tileBoard[size-2][1] == null ? 1 : 0);
+        }
+        for (int i = size - 2; i > 0; i--) {
+            total += (tileBoard[i-1][size-1] == null ? 1 : 0);
+            total += (tileBoard[i+1][size-1] == null ? 1 : 0);
+            total += (tileBoard[i][size-2] == null ? 1 : 0);
+        }
+
+        //Inner Board
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < tileBoard.length; j++) {
+                if (tileBoard[i][j] == null) {
+                    total += (tileBoard[i-1][j] == null ? 1 : 0);
+                    total += (tileBoard[i+1][j] == null ? 1 : 0);
+                    total += (tileBoard[i][j-1] == null ? 1 : 0);
+                    total += (tileBoard[i][j+1] == null ? 1 : 0);
+                }
+            }
+        }
 	}
 
 	// remaining colors
