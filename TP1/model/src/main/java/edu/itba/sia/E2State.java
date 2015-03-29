@@ -5,6 +5,7 @@ import java.util.List;
 
 import edu.itba.sia.API.GPSState;
 import edu.itba.sia.enums.Direction;
+import edu.itba.sia.model.Tile;
 
 public class E2State implements GPSState {
 
@@ -32,6 +33,11 @@ public class E2State implements GPSState {
 	}
 
 	public String toString() {
+		System.out.println("Remaining Tiles: ");
+		for (Tile t : remainingTiles) {
+			System.out.println(t);
+		}
+		System.out.println("------- BOARD ---------");
 		String s = "";
 		for (int i = 0; i < tileBoard.length; i++) {
 			for (int j = 0; j < tileBoard.length; j++) {
@@ -101,6 +107,7 @@ public class E2State implements GPSState {
                 }
             }
         }
+		return size;
 	}
 
 	// remaining colors

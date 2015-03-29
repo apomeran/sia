@@ -3,11 +3,11 @@ package edu.itba.sia.rules;
 import java.util.LinkedList;
 
 import edu.itba.sia.E2State;
-import edu.itba.sia.Tile;
 import edu.itba.sia.API.GPSRule;
 import edu.itba.sia.API.GPSState;
 import edu.itba.sia.enums.TileRotation;
 import edu.itba.sia.exceptions.NotAppliableException;
+import edu.itba.sia.model.Tile;
 
 public class InsertTile implements GPSRule {
 
@@ -47,7 +47,6 @@ public class InsertTile implements GPSRule {
 					.leftColor()));
 		E2State result = new E2State(e.getBoard(), e.lookUpTableState, remTiles);
 
-		tile.setCurrentRotation(rotation);
 
 		if (result.insertTile(tile, row, col)) {
 			result.getRemainingTiles().remove(tile);

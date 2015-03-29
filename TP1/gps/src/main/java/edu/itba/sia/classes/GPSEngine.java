@@ -96,6 +96,7 @@ public abstract class GPSEngine {
 				// if (newState != null)
 				// System.out.println(newState);
 			} catch (NotAppliableException e) {
+				System.out.println("EXCEPTION");
 				// Do nothing
 			}
 			if (newState != null

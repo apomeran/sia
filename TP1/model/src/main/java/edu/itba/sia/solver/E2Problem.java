@@ -8,14 +8,13 @@ import java.util.List;
 import edu.itba.sia.BoardBuilder;
 import edu.itba.sia.E2GlobalState;
 import edu.itba.sia.E2State;
-import edu.itba.sia.Tile;
 import edu.itba.sia.API.GPSProblem;
 import edu.itba.sia.API.GPSRule;
 import edu.itba.sia.API.GPSState;
 import edu.itba.sia.classes.SearchStrategy;
 import edu.itba.sia.enums.TileRotation;
+import edu.itba.sia.model.Tile;
 import edu.itba.sia.rules.InsertTile;
-import edu.itba.sia.rules.LoriInsertTile;
 
 public class E2Problem implements GPSProblem {
 
@@ -140,13 +139,16 @@ public class E2Problem implements GPSProblem {
 																// static
 
 		for (Tile tile : tiles) {
-			this.tileList.add(tile);
+			System.out.println(tile);
+			tileList.add(tile);
 		}// structures...
 
 		Collections.shuffle(tileList);
-		return new E2State(new Tile[E2GlobalState.SIZE][E2GlobalState.SIZE],
+		E2State e = new E2State(
+				new Tile[E2GlobalState.SIZE][E2GlobalState.SIZE],
 				new int[E2GlobalState.NUM_COLORS][E2GlobalState.NUM_COLORS],
 				tileList);
+		return e;
 	}
 
 	@Override
@@ -160,32 +162,6 @@ public class E2Problem implements GPSProblem {
 				return ((E2State) otherState).getRemainingTiles().isEmpty();
 			}
 		};
-	}
-
-	public List<GPSRule> getLoriRules() {
-		List<GPSRule> rules = new LinkedList<GPSRule>();
-
-		int maxDefined = 0, curPattern = 0, lastI = 0, lastJ = 0;
-		for (int i = 0; i < state.board.length; i++) {
-			for (int j = 0; j < state.board.length; j++) {
-				curPattern = calculatePatternFor(i, j, state.board);
-				int curDefined = (((curPattern & 0xFF000000) != 0) ? 1 : 0)
-						+ (((curPattern & 0x00FF0000) != 0) ? 1 : 0)
-						+ (((curPattern & 0x0000FF00) != 0) ? 1 : 0)
-						+ (((curPattern & 0x000000FF) != 0) ? 1 : 0);
-				if (state.board[i][j] == 0) {
-					if (curDefined <= maxDefined)
-						rules.addAll(generateRulesForPosition(lastI, lastJ,
-								state));
-					else {
-						lastI = i;
-						lastJ = j;
-						maxDefined = curDefined;
-					}
-				}
-			}
-		}
-		return rules;
 	}
 
 	@Override
@@ -203,36 +179,6 @@ public class E2Problem implements GPSProblem {
 		default:
 			return e.firstHeuristic();
 		}
-	}
-
-	private List<LoriInsertTile> generateRulesForPosition(int i, int j,
-			E2State state) {
-		int pattern = calculatePatternFor(i, j, state.board);
-		int up = pattern & 0xFF000000, right = pattern & 0x00FF0000, down = pattern & 0x0000FF00, left = pattern & 0x000000FF;
-
-		short[] matchingTiles = E2GlobalState.getTilesMatching(up, right, down,
-				left, state.lookUpTableState);
-
-		List<LoriInsertTile> rules = new LinkedList<LoriInsertTile>();
-		if (matchingTiles == null) { // No tiles match the search criteria...
-			return rules;
-		} else {
-			for (short tile : matchingTiles) {
-				rules.add(new LoriInsertTile(tile, i, j));
-			}
-			return rules;
-		}
-	}
-
-	private int calculatePatternFor(int i, int j, int[][] board) {
-		int up, right, down, left;
-		up = (i - 1 < 0) ? 0 : ((board[i - 1][j] & 0x0000FF00) << 16);
-		right = (j + 1 == E2GlobalState.SIZE) ? 0
-				: ((board[i][j + 1] & 0x000000FF) << 16);
-		down = (i + 1 == E2GlobalState.SIZE) ? 0
-				: ((board[i + 1][j] & 0xFF000000) >>> 16);
-		left = (j - 1 < 0) ? 0 : ((board[i][j - 1] & 0x00FF0000) >>> 16);
-		return (up | right | down | left);
 	}
 
 	@Override

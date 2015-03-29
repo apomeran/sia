@@ -2,10 +2,10 @@ package edu.itba.sia.rules;
 
 import edu.itba.sia.E2GlobalState;
 import edu.itba.sia.E2State;
-import edu.itba.sia.Tile;
 import edu.itba.sia.API.GPSRule;
 import edu.itba.sia.API.GPSState;
 import edu.itba.sia.exceptions.NotAppliableException;
+import edu.itba.sia.model.Tile;
 
 public class LoriInsertTile implements GPSRule {
 

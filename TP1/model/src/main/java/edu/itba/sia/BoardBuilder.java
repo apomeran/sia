@@ -2,6 +2,8 @@ package edu.itba.sia;
 
 import java.util.Random;
 
+import edu.itba.sia.model.Tile;
+
 public class BoardBuilder {
 
 	public static Tile[][] buildBoard(int size, int numColors) {
