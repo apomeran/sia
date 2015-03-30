@@ -30,4 +30,8 @@ public interface GPSRule {
 	 * applied to the received state.
 	 */
 	GPSState evalRule(GPSState state) throws NotAppliableException;
+	
+	int getCol();
+	int getRow();
+	Object getInsertTile();
 }

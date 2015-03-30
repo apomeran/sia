@@ -53,7 +53,7 @@ public class InsertTile implements GPSRule {
 			// do not add to open if insertTile is already in the board.
 			return null;
 		}
-	
+
 		LinkedList<Tile> remTiles = new LinkedList<Tile>();
 		for (Tile t : e.getRemainingTiles())
 			remTiles.add(new Tile(t.getPattern()));
@@ -62,14 +62,26 @@ public class InsertTile implements GPSRule {
 		insertTile.rotate(rotateTimes);
 
 		if (result.getBoard().insert(insertTile, row, col)) {
-			result.getRemainingTiles().remove(insertTile);
 			if (!isOk(result)) {
 				return null;
 			}
+			result.getRemainingTiles().remove(insertTile);
 			return result;
 		}
 
 		return null;
+	}
+
+	public Tile getInsertTile() {
+		return insertTile;
+	}
+
+	public int getRow() {
+		return row;
+	}
+
+	public int getCol() {
+		return col;
 	}
 
 	public boolean isOk(E2State e) {
@@ -79,6 +91,35 @@ public class InsertTile implements GPSRule {
 		int hValue = e.getSupposedWeight();
 		boolean nullDetected = false;
 		int consecutive = 0;
+
+		if (e.getBoard().getTiles()[0][0] != null) {
+			Tile t = e.getBoard().getTiles()[0][0];
+			if (t.getColor(Direction.NORTH) != wallColor
+					|| t.getColor(Direction.WEST) != wallColor) {
+				return false;
+			}
+		}
+		if (e.getBoard().getTiles()[0][dimension - 1] != null) {
+			Tile t = e.getBoard().getTiles()[0][dimension - 1];
+			if (t.getColor(Direction.NORTH) != wallColor
+					|| t.getColor(Direction.EAST) != wallColor) {
+				return false;
+			}
+		}
+		if (e.getBoard().getTiles()[dimension-1][0] != null) {
+			Tile t = e.getBoard().getTiles()[dimension-1][0];
+			if (t.getColor(Direction.SOUTH) != wallColor
+					|| t.getColor(Direction.WEST) != wallColor) {
+				return false;
+			}
+		}
+		if (e.getBoard().getTiles()[dimension - 1][dimension - 1] != null) {
+			Tile t = e.getBoard().getTiles()[dimension - 1][dimension - 1];
+			if (t.getColor(Direction.SOUTH) != wallColor
+					|| t.getColor(Direction.EAST) != wallColor) {
+				return false;
+			}
+		}
 
 		for (int d = 0; d < depth; d++) {
 

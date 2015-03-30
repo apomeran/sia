@@ -61,8 +61,8 @@ public abstract class GPSEngine {
 					System.out.println("Expanded nodes: " + explosionCounter);
 					System.out.println("Depth: " + currentNode.getDepth());
 					System.out.println("Frontier nodes: " + open.size());
-					System.out.println("Total States: " + (open.size()
-							+ closed.size()));
+					System.out.println("Total States: "
+							+ (open.size() + closed.size()));
 				} else {
 					explosionCounter++;
 					explode(currentNode);
@@ -92,6 +92,9 @@ public abstract class GPSEngine {
 		for (GPSRule rule : problem.getRules()) {
 			GPSState newState = null;
 			try {
+				// System.out.println("Trying to insert in " + rule.getRow() +
+				// ","
+				// + rule.getCol() + " --> " + rule.getInsertTile());
 				newState = rule.evalRule(node.getState());
 				// if (newState != null)
 				// System.out.println(newState);
@@ -101,21 +104,28 @@ public abstract class GPSEngine {
 			}
 			if (newState != null
 					&& !checkBranch(node, newState)
-					&& !checkOpenAndClosed(
-							node.getCost() + rule.getCost(), newState)) {
+					&& !checkOpenAndClosed(node.getCost() + rule.getCost(),
+							newState)) {
 				int newCost = node.getCost() + rule.getCost();
-				GPSNode newNode = new GPSNode(newState, newCost, node.getDepth() + 1);
+				GPSNode newNode = new GPSNode(newState, newCost,
+						node.getDepth() + 1);
 				newNode.setParent(node);
 				addNode(newNode);
-				
+				// System.out.println("Success! open:" + getOpen().size());
+
+			} else {
+				// System.out.println("Failed open:" + getOpen().size());
+
 			}
+//			System.out.println("-");
 		}
 		return true;
 	}
 
 	private boolean checkOpenAndClosed(Integer cost, GPSState state) {
 		for (GPSNode openNode : open) {
-			if (openNode.getState().compare(state) && openNode.getCost() <= cost) {
+			if (openNode.getState().compare(state)
+					&& openNode.getCost() <= cost) {
 				return true;
 			}
 		}

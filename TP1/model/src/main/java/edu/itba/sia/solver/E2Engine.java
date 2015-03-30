@@ -54,7 +54,7 @@ public class E2Engine extends GPSEngine {
 							+ getOpen().get(i).getCost()) {
 				i++;
 			}
-			if (problem.getHValue(node.getState()) < 100)
+//			if (problem.getHValue(node.getState()) < 100)
 				getOpen().add(i, node);
 			break;
 		case Greedy:
