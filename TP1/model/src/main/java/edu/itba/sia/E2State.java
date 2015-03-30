@@ -162,7 +162,7 @@ public class E2State implements GPSState {
 		return (int) (result * factor);
 	}
 
-	// all 4 heuristics combined
+	// all 5 heuristics combined
 	public int fifthHeuristic() {
 		return firstHeuristic() + secondHeuristic() + (thirdHeuristic() * 10)
 				+ fourthHeuristic();
