@@ -63,9 +63,9 @@ public class InsertTile implements GPSRule {
 
 		if (result.getBoard().insert(insertTile, row, col)) {
 			result.getRemainingTiles().remove(insertTile);
-//			if (!isOk(result)) {
-//				return null;
-//			}
+			if (!isOk(result)) {
+				return null;
+			}
 			return result;
 		}
 
@@ -73,6 +73,7 @@ public class InsertTile implements GPSRule {
 	}
 
 	public boolean isOk(E2State e) {
+		dimension = e.getBoard().getDimension();
 		int depth = dimension % 2 == 0 ? dimension / 2 : dimension / 2 + 1;
 		int totalTiles = dimension * dimension;
 		int hValue = e.getSupposedWeight();
