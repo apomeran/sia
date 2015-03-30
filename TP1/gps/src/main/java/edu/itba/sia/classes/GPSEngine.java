@@ -107,6 +107,7 @@ public abstract class GPSEngine {
 				GPSNode newNode = new GPSNode(newState, newCost, node.getDepth() + 1);
 				newNode.setParent(node);
 				addNode(newNode);
+				
 			}
 		}
 		return true;

@@ -38,7 +38,6 @@ public class InsertTile implements GPSRule {
 		E2State e = (E2State) state;
 
 		if (!e.getRemainingTiles().contains(insertTile)) {
-			// do not add to open if insertTile is already in the board.
 			return null;
 		}
 		LinkedList<Tile> remTiles = new LinkedList<Tile>();
@@ -54,6 +53,7 @@ public class InsertTile implements GPSRule {
 				newBoard[i][j] = oldBoard[i][j];
 			}
 		}
+
 		E2State result = new E2State(newBoard, e.lookUpTableState, remTiles);
 		insertTile.rotate(rotateTimes);
 
