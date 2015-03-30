@@ -7,32 +7,30 @@ import edu.itba.sia.classes.GPSEngine;
 import edu.itba.sia.classes.GPSNode;
 import edu.itba.sia.classes.SearchStrategy;
 
-public class E2Engine extends GPSEngine
-{
+public class E2Engine extends GPSEngine {
 	final static int initialDepth = 1;
 
-	private int maxIDFSdepth;
+	private int MAXIDFSDEPTH;
 
 	public E2Engine(SearchStrategy strategy) {
 		engine(new E2Problem(), strategy);
-		maxIDFSdepth = initialDepth;
+		MAXIDFSDEPTH = initialDepth;
 	}
 
 	@Override
 	protected boolean explode(GPSNode node) {
 
 		if (getStrategy().equals(SearchStrategy.IDFS)) {
-			if (node.getDepth() >= maxIDFSdepth) {
+			if (node.getDepth() >= MAXIDFSDEPTH) {
 				getOpen().clear();
 				getClosed().clear();
 				getOpen().add(new GPSNode(getProblem().getInitState(), 0, 0));
-				maxIDFSdepth += 1;
-				System.out.println("Current depth: " + maxIDFSdepth);
+				MAXIDFSDEPTH += 1;
+				System.out.println("Current depth: " + MAXIDFSDEPTH);
 				return true;
 			}
 		}
 		return super.explode(node);
-
 	}
 
 	@Override
@@ -47,23 +45,23 @@ public class E2Engine extends GPSEngine
 			open.add(0, node);
 			break;
 		case AStar:			
-			Integer heuristicValue = getProblem().getHValue(node.getState());
+			Integer hValue = getProblem().getHValue(node.getState());
 			Integer hCost = node.getCost();
-			Integer totalValue = heuristicValue + hCost;
+			Integer totalValue = hValue + hCost;
 			int i = 0;
 			while (i < getOpen().size()
 					&& totalValue > problem.getHValue(getOpen().get(i).getState())
 							+ getOpen().get(i).getCost()) {
 				i++;
 			}
-//			if (problem.getHValue(node.getState()) < 1000)
+			if (problem.getHValue(node.getState()) < 100)
 				getOpen().add(i, node);
 			break;
 		case Greedy:
-			Integer greedyHeuristicValue = getProblem().getHValue(node.getState());
+			Integer hValueGreedy = getProblem().getHValue(node.getState());
 			int j = 0;
 			while (j < getOpen().size()
-					&& greedyHeuristicValue > problem.getHValue(getOpen().get(j).getState())) {
+					&& hValueGreedy > problem.getHValue(getOpen().get(j).getState())) {
 				j++;
 			}
 				open.add(j, node);
@@ -72,8 +70,6 @@ public class E2Engine extends GPSEngine
 			open.add(0, node);
 		default:
 			break;
-
 		}
 	}
-
 }

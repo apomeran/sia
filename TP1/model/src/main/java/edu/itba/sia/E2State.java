@@ -1,58 +1,76 @@
 package edu.itba.sia;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import edu.itba.sia.API.GPSState;
-import edu.itba.sia.enums.Direction;
+import edu.itba.sia.model.Board;
 import edu.itba.sia.model.Tile;
 
 public class E2State implements GPSState {
 
-	public Tile[][] tileBoard;
-	public int[][] board;
+	private Board board;
+	private List<Tile> remainingTiles;
+	private int hValue = -1;
 	public int[][] lookUpTableState;
 
-	public List<Tile> remainingTiles = new LinkedList<Tile>();
-
-	public E2State(Tile[][] board, int[][] lookUpTableState,
-			List<Tile> remainingTiles) {
-		this.tileBoard = board;
-		this.lookUpTableState = lookUpTableState;
-		this.remainingTiles = remainingTiles;
-
+	public List<Tile> getRemainingTiles() {
+		return remainingTiles;
 	}
 
-	public boolean compare(GPSState state) {
+	public E2State(Board board, List<Tile> remainingTiles,
+			int[][] lookUpTableState) {
+		this.board = board;
+		this.remainingTiles = remainingTiles;
+		this.lookUpTableState = lookUpTableState;
+	}
 
+	@Override
+	public boolean compare(GPSState state) {
 		if (state == null)
 			return false;
-		E2State otherState = (E2State) state;
-		for (int i = 0; i < E2GlobalState.SIZE; i++) {
-			for (int j = 0; j < E2GlobalState.SIZE; j++) {
-				if (tileBoard[i][j] != otherState.tileBoard[i][j])
-					return false;
-			}
-		}
-		return (remainingTiles.size() == otherState.getRemainingTiles().size());
+		E2State state2 = (E2State) state;
+		return (board.compareBoard(state2.getBoard()) && remainingTiles.size() == state2
+				.getRemainingTiles().size());
+	}
+
+	public Board getBoard() {
+		return board;
 	}
 
 	public String toString() {
-		System.out.println("Remaining Tiles: ");
-		for (Tile t : remainingTiles) {
-			System.out.println(t);
+		return board.toString();
+	}
+
+	public int gethValue() {
+		return hValue;
+	}
+
+	public void sethValue(int hValue) {
+		this.hValue = hValue;
+	}
+
+	public boolean hasNoHValue() {
+		return hValue == -1;
+	}
+
+	public int getSupposedWeight() {
+		int total = 0;
+		for (Tile t : remainingTiles)
+			total += getWeight(t);
+		return total;
+	}
+
+	public Integer getWeight(Tile t) {
+		switch (t.getType()) {
+		case CORNER:
+			return 1;
+		case WALL:
+			return 2;
+		case INNER:
+			return 3;
+		default:
+			return null;
 		}
-		System.out.println("------- BOARD ---------");
-		String s = "";
-		for (int i = 0; i < tileBoard.length; i++) {
-			for (int j = 0; j < tileBoard.length; j++) {
-				String aux = tileBoard[i][j] == null ? "       "
-						: tileBoard[i][j].toString();
-				s += "[" + aux + "] ";
-			}
-			s += '\n';
-		}
-		return s;
 	}
 
 	// ------- HEURISTICS
@@ -67,48 +85,48 @@ public class E2State implements GPSState {
 	// Open edges
 	public int secondHeuristic() {
 		int heusticValue = 0;
-		int size = tileBoard.length;
+		int size = board.getTiles().length;
 
 		// Corners
-		heusticValue += (tileBoard[0][1] == null ? 1 : 0);
-		heusticValue += (tileBoard[1][0] == null ? 1 : 0);
-		heusticValue += (tileBoard[size - 1][1] == null ? 1 : 0);
-		heusticValue += (tileBoard[size - 2][0] == null ? 1 : 0);
-		heusticValue += (tileBoard[1][size - 1] == null ? 1 : 0);
-		heusticValue += (tileBoard[0][size - 2] == null ? 1 : 0);
-		heusticValue += (tileBoard[size - 2][size - 1] == null ? 1 : 0);
-		heusticValue += (tileBoard[size - 1][size - 2] == null ? 1 : 0);
+		heusticValue += (board.getTiles()[0][1] == null ? 1 : 0);
+		heusticValue += (board.getTiles()[1][0] == null ? 1 : 0);
+		heusticValue += (board.getTiles()[size - 1][1] == null ? 1 : 0);
+		heusticValue += (board.getTiles()[size - 2][0] == null ? 1 : 0);
+		heusticValue += (board.getTiles()[1][size - 1] == null ? 1 : 0);
+		heusticValue += (board.getTiles()[0][size - 2] == null ? 1 : 0);
+		heusticValue += (board.getTiles()[size - 2][size - 1] == null ? 1 : 0);
+		heusticValue += (board.getTiles()[size - 1][size - 2] == null ? 1 : 0);
 
 		// Edges
 		for (int i = 1; i < size - 1; i++) {
-			heusticValue += (tileBoard[0][i - 1] == null ? 1 : 0);
-			heusticValue += (tileBoard[0][i + 1] == null ? 1 : 0);
-			heusticValue += (tileBoard[1][i] == null ? 1 : 0);
+			heusticValue += (board.getTiles()[0][i - 1] == null ? 1 : 0);
+			heusticValue += (board.getTiles()[0][i + 1] == null ? 1 : 0);
+			heusticValue += (board.getTiles()[1][i] == null ? 1 : 0);
 		}
 		for (int i = 1; i < size - 1; i++) {
-			heusticValue += (tileBoard[i - 1][0] == null ? 1 : 0);
-			heusticValue += (tileBoard[i + 1][0] == null ? 1 : 0);
-			heusticValue += (tileBoard[i][1] == null ? 1 : 0);
+			heusticValue += (board.getTiles()[i - 1][0] == null ? 1 : 0);
+			heusticValue += (board.getTiles()[i + 1][0] == null ? 1 : 0);
+			heusticValue += (board.getTiles()[i][1] == null ? 1 : 0);
 		}
 		for (int i = size - 2; i > 0; i--) {
-			heusticValue += (tileBoard[size - 1][i - 1] == null ? 1 : 0);
-			heusticValue += (tileBoard[size - 1][i + 1] == null ? 1 : 0);
-			heusticValue += (tileBoard[size - 2][1] == null ? 1 : 0);
+			heusticValue += (board.getTiles()[size - 1][i - 1] == null ? 1 : 0);
+			heusticValue += (board.getTiles()[size - 1][i + 1] == null ? 1 : 0);
+			heusticValue += (board.getTiles()[size - 2][1] == null ? 1 : 0);
 		}
 		for (int i = size - 2; i > 0; i--) {
-			heusticValue += (tileBoard[i - 1][size - 1] == null ? 1 : 0);
-			heusticValue += (tileBoard[i + 1][size - 1] == null ? 1 : 0);
-			heusticValue += (tileBoard[i][size - 2] == null ? 1 : 0);
+			heusticValue += (board.getTiles()[i - 1][size - 1] == null ? 1 : 0);
+			heusticValue += (board.getTiles()[i + 1][size - 1] == null ? 1 : 0);
+			heusticValue += (board.getTiles()[i][size - 2] == null ? 1 : 0);
 		}
 
 		// Inner Board
 		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < tileBoard.length; j++) {
-				if (tileBoard[i][j] == null) {
-					heusticValue += (tileBoard[i - 1][j] == null ? 1 : 0);
-					heusticValue += (tileBoard[i + 1][j] == null ? 1 : 0);
-					heusticValue += (tileBoard[i][j - 1] == null ? 1 : 0);
-					heusticValue += (tileBoard[i][j + 1] == null ? 1 : 0);
+			for (int j = 0; j < board.getTiles().length; j++) {
+				if (board.getTiles()[i][j] == null) {
+					heusticValue += (board.getTiles()[i - 1][j] == null ? 1 : 0);
+					heusticValue += (board.getTiles()[i + 1][j] == null ? 1 : 0);
+					heusticValue += (board.getTiles()[i][j - 1] == null ? 1 : 0);
+					heusticValue += (board.getTiles()[i][j + 1] == null ? 1 : 0);
 				}
 			}
 		}
@@ -117,51 +135,37 @@ public class E2State implements GPSState {
 
 	// remaining colors
 	public int thirdHeuristic() {
+		int[][] lookUpTableState = null;
 		return E2GlobalState.getRemainingColors(lookUpTableState);
 	}
-
-	// all 3 heuristics combined
+	
+	// Manhattan distance for every tile
 	public int fourthHeuristic() {
-		return firstHeuristic() + secondHeuristic() + (thirdHeuristic() * 10);
+
+		int result = -1;
+
+		double factor = 1.0;
+		int complete = 0;
+		int actual = 0;
+		int n = board.getDimension();
+		int constant = n / 2;
+		for (int i = 0; i < board.getDimension(); i++) {
+			for (int j = 0; j < board.getDimension(); j++) {
+				int distance = Math.abs(constant - i) + Math.abs(constant - j);
+				if (!(board.getTiles()[i][j] == null)) {
+					actual += distance;
+				}
+				complete += distance;
+			}
+		}
+		result = (complete - actual) * (n * n);
+		return (int) (result * factor);
 	}
 
-	public List<Tile> getRemainingTiles() {
-		return remainingTiles;
-	}
-
-	public Tile[][] getBoard() {
-		return tileBoard;
-	}
-
-	public int[][] getLookUpTableState() {
-		return lookUpTableState;
-	}
-
-	public boolean insertTile(Tile tile, int row, int col) {
-		if (tileBoard[row][col] != null)
-			return false;
-		boolean valid = true;
-
-		if (col + 1 < E2GlobalState.SIZE) {
-			valid = tile.validMove(tileBoard[row][col + 1], Direction.RIGHT);
-		}
-		if (col - 1 >= 0) {
-			valid = valid
-					&& tile.validMove(tileBoard[row][col - 1], Direction.LEFT);
-		}
-		if (row - 1 >= 0) {
-			valid = valid
-					&& tile.validMove(tileBoard[row - 1][col], Direction.DOWN);
-		}
-		if (row + 1 < E2GlobalState.SIZE) {
-			valid = valid
-					&& tile.validMove(tileBoard[row + 1][col], Direction.UP);
-		}
-		if (valid) {
-			tileBoard[row][col] = tile;
-		}
-
-		return valid;
+	// all 4 heuristics combined
+	public int fifthHeuristic() {
+		return firstHeuristic() + secondHeuristic() + (thirdHeuristic() * 10)
+				+ fourthHeuristic();
 	}
 
 }
