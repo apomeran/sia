@@ -47,7 +47,22 @@ public class InsertTile implements GPSRule {
 					.leftColor()));
 		E2State result = new E2State(e.getBoard(), e.lookUpTableState, remTiles);
 
-
+		switch (rotation) {
+		case CLOCKWISE:
+			tile.rotateToRight();
+			break;
+		case DOUBLEROT:
+			tile.rotateToRight();
+			tile.rotateToRight();
+			break;
+		case COUNTERCLOCKWISE:
+			tile.rotateToRight();
+			tile.rotateToRight();
+			tile.rotateToRight();
+			break;
+		default:
+			break;
+		}
 		if (result.insertTile(tile, row, col)) {
 			result.getRemainingTiles().remove(tile);
 			return result;

@@ -101,13 +101,7 @@ public class Tile {
 		if (getClass() != obj.getClass())
 			return false;
 		Tile other = (Tile) obj;
-		boolean flag = false;
-		for (int i = 0; i < 4; i++) {
-			if (comparePattern(other.rotateToRight())) {
-				flag = true;
-			}
-		}
-		return flag;
+		return comparePattern(other);
 	}
 
 	public boolean comparePattern(Tile other) {
