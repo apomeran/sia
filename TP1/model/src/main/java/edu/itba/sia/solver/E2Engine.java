@@ -44,27 +44,26 @@ public class E2Engine extends GPSEngine {
 		case DFS:
 			open.add(0, node);
 			break;
-		case AStar:			
+		case AStar:
 			Integer hValue = getProblem().getHValue(node.getState());
 			Integer hCost = node.getCost();
 			Integer totalValue = hValue + hCost;
 			int i = 0;
 			while (i < getOpen().size()
-					&& totalValue > problem.getHValue(getOpen().get(i).getState())
-							+ getOpen().get(i).getCost()) {
+					&& totalValue > problem.getHValue(getOpen().get(i)
+							.getState()) + getOpen().get(i).getCost()) {
 				i++;
 			}
-				getOpen().add(i, node);
+			getOpen().add(i, node);
 			break;
 		case Greedy:
 			Integer hValueGreedy = getProblem().getHValue(node.getState());
-			int j = 0;
-			while (j < getOpen().size()
-					&& hValueGreedy > problem.getHValue(getOpen().get(j).getState())) {
-				j++;
+			int a = open.size();
+			int factor = 100;
+			for (int counter = 0; counter < a / factor; counter++) {
+				open.remove(open.size() - 1);
 			}
-			 //TODO arreglarlo bien.s
-				open.add(j, node);
+			open.add(0, node);
 			break;
 		case IDFS:
 			open.add(0, node);
