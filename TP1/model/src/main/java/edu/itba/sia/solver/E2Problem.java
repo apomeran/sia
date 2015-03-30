@@ -139,7 +139,6 @@ public class E2Problem implements GPSProblem {
 																// static
 
 		for (Tile tile : tiles) {
-			System.out.println(tile);
 			tileList.add(tile);
 		}// structures...
 
@@ -187,26 +186,15 @@ public class E2Problem implements GPSProblem {
 		for (Tile t : tileList) {
 			for (int i = 0; i < dimension; i++) {
 				for (int j = 0; j < dimension; j++) {
+					for (int r = 0; r < 4; r++) {
+						rules.add(new InsertTile(new Tile(t.upColor(), t
+								.rightColor(), t.downColor(), t.leftColor()),
+								r, i, j));
 
-					rules.add(new InsertTile(new Tile(t.upColor(), t
-							.rightColor(), t.downColor(), t.leftColor()),
-							TileRotation.REGULAR, i, j));
-
-					rules.add(new InsertTile(new Tile(t.upColor(), t
-							.rightColor(), t.downColor(), t.leftColor()),
-							TileRotation.CLOCKWISE, i, j));
-
-					rules.add(new InsertTile(new Tile(t.upColor(), t
-							.rightColor(), t.downColor(), t.leftColor()),
-							TileRotation.COUNTERCLOCKWISE, i, j));
-
-					rules.add(new InsertTile(new Tile(t.upColor(), t
-							.rightColor(), t.downColor(), t.leftColor()),
-							TileRotation.DOUBLEROT, i, j));
+					}
 				}
 			}
 		}
-
 		return rules;
 	}
 

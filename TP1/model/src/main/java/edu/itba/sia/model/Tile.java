@@ -2,7 +2,6 @@ package edu.itba.sia.model;
 
 import edu.itba.sia.E2GlobalState;
 import edu.itba.sia.enums.Direction;
-import edu.itba.sia.enums.TileRotation;
 
 /*
  * For each rotation the structure is 8 bits each color (up (8bits), right (8bits), down (8bits), left (8bits) = 32 bits int total)...
@@ -38,6 +37,12 @@ public class Tile {
 		this.rightColor = auxUp;
 
 		return this;
+	}
+
+	public void rotate(int times) {
+		for (int i = 0; i < times; i++) {
+			rotateToRight();
+		}
 	}
 
 	public String toString() {
@@ -101,7 +106,12 @@ public class Tile {
 		if (getClass() != obj.getClass())
 			return false;
 		Tile other = (Tile) obj;
-		return comparePattern(other);
+		for (int i = 0; i < 4; i++) {
+			other.rotate(i);
+			if (comparePattern(other))
+				return true;
+		}
+		return false;
 	}
 
 	public boolean comparePattern(Tile other) {
