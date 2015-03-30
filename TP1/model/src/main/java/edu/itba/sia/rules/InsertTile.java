@@ -19,11 +19,13 @@ public class InsertTile implements GPSRule {
 	int wallColor;
 	int dimension = E2GlobalState.SIZE;
 
-	public InsertTile(Tile insertTile, int rotateTimes, int row, int col) {
+	public InsertTile(Tile insertTile, int rotateTimes, int row, int col,
+			int wallcolor) {
 		this.insertTile = insertTile;
 		this.rotateTimes = rotateTimes;
 		this.row = row;
 		this.col = col;
+		this.wallColor = wallcolor;
 	}
 
 	@Override
@@ -57,10 +59,10 @@ public class InsertTile implements GPSRule {
 		LinkedList<Tile> remTiles = new LinkedList<Tile>();
 		for (Tile t : e.getRemainingTiles())
 			remTiles.add(new Tile(t.getPattern()));
-		E2State result = new E2State(new Board(e.getBoard()), remTiles, null);
+		E2State result = new E2State(new Board(e.getBoard()), remTiles, null,
+				wallColor);
 
 		insertTile.rotate(rotateTimes);
-
 		if (result.getBoard().insert(insertTile, row, col)) {
 			if (!isOk(result)) {
 				return null;
@@ -106,8 +108,8 @@ public class InsertTile implements GPSRule {
 				return false;
 			}
 		}
-		if (e.getBoard().getTiles()[dimension-1][0] != null) {
-			Tile t = e.getBoard().getTiles()[dimension-1][0];
+		if (e.getBoard().getTiles()[dimension - 1][0] != null) {
+			Tile t = e.getBoard().getTiles()[dimension - 1][0];
 			if (t.getColor(Direction.SOUTH) != wallColor
 					|| t.getColor(Direction.WEST) != wallColor) {
 				return false;
@@ -284,7 +286,7 @@ public class InsertTile implements GPSRule {
 			}
 
 			if (nullDetected) {
-				if (e.getRemainingTiles().size() + consecutive == totalTiles)
+				if (e.getRemainingTiles().size() - 1 + consecutive == totalTiles)
 					return true;
 				return false;
 			}

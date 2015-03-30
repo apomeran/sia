@@ -3,6 +3,7 @@ package edu.itba.sia;
 import java.util.List;
 
 import edu.itba.sia.API.GPSState;
+import edu.itba.sia.enums.Direction;
 import edu.itba.sia.model.Board;
 import edu.itba.sia.model.Tile;
 
@@ -12,16 +13,18 @@ public class E2State implements GPSState {
 	private List<Tile> remainingTiles;
 	private int hValue = -1;
 	public int[][] lookUpTableState;
+	private int wallColor;
 
 	public List<Tile> getRemainingTiles() {
 		return remainingTiles;
 	}
 
 	public E2State(Board board, List<Tile> remainingTiles,
-			int[][] lookUpTableState) {
+			int[][] lookUpTableState, int wallcolor) {
 		this.board = board;
 		this.remainingTiles = remainingTiles;
 		this.lookUpTableState = lookUpTableState;
+		this.wallColor = wallcolor;
 	}
 
 	@Override
@@ -61,25 +64,53 @@ public class E2State implements GPSState {
 	}
 
 	public Integer getWeight(Tile t) {
-		switch (t.getType()) {
-		case CORNER:
-			return 1;
-		case WALL:
-			return 2;
-		case INNER:
-			return 3;
-		default:
-			return null;
-		}
+		return 1;
 	}
 
 	// ------- HEURISTICS
 	// ---------------------------------------------------------
 
-	// Check if any of the missing tiles in the board has a pattern that no
-	// remaining tile can match
-	public int firstHeuristic() {
-		return 0;
+	public int spiralHeuristic() {
+		int consecutive = 0;
+		int dimension = board.getDimension();
+		int totalTiles = board.getDimension() * board.getDimension();
+		int hValue = getSupposedWeight();
+
+		for (int i = 0; i < dimension; i++) {
+			for (int j = 0; j < dimension; j++) {
+
+				Tile currentTile = board.getTiles()[i][j];
+
+				if (currentTile != null) {
+					consecutive++;
+					if ((i == 0 || i == dimension - 1)
+							|| (j == 0 || j == dimension - 1)) {
+						if ((i == 0 || i == dimension - 1)
+								&& (j == 0 || j == dimension - 1)) {
+							if (!correctCorner(currentTile, i, j)) {
+								return Integer.MAX_VALUE / 2;
+							}
+						} else if (!(correctBorder(currentTile, i, j))) {
+							return Integer.MAX_VALUE / 2;
+						}
+						if (!hasWalls(currentTile)) {
+							return Integer.MAX_VALUE / 2;
+						}
+					} else {
+						if (hasWalls(currentTile)) {
+							return Integer.MAX_VALUE / 2;
+						}
+					}
+				} else { // it isn't consecutive
+					if (getRemainingTiles().size() + consecutive == totalTiles)
+						return hValue;
+					else
+						return Integer.MAX_VALUE / 2;
+
+				}
+			}
+		}
+		return hValue;
 	}
 
 	// Open edges
@@ -173,14 +204,75 @@ public class E2State implements GPSState {
 	// all 5 heuristics combined
 	public int combinationHeuristic() {
 		if (getRemainingTiles().size() > getBoard().getDimension()
-				* getBoard().getDimension() / 2) {
-			return manhattanDistanceHeuristic();
+				* getBoard().getDimension() / 12) {
+			return spiralHeuristic();
 		} else {
 			return openEdgesHeuristic();
 		}
 	}
-	
-	public int spiralColocationHeuristic(){
-		return 0;
+
+
+	private int wallAmount(Tile currentTile) {
+		int walls = 0;
+		if (currentTile.getColor(Direction.NORTH) == wallColor)
+			walls++;
+		if (currentTile.getColor(Direction.SOUTH) == wallColor)
+			walls++;
+		if (currentTile.getColor(Direction.WEST) == wallColor)
+			walls++;
+		if (currentTile.getColor(Direction.EAST) == wallColor)
+			walls++;
+		return walls;
+	}
+
+	public boolean hasOneWall(Tile currentTile) {
+		return wallAmount(currentTile) == 1;
+	}
+
+	public boolean hasWalls(Tile currentTile) {
+		return wallAmount(currentTile) != 0;
+	}
+
+	private boolean correctCorner(Tile currentTile, int i, int j) {
+		int dimension = board.getDimension();
+		// arriba izq
+		if (i == 0 && j == 0
+				&& currentTile.getColor(Direction.NORTH) == wallColor
+				&& currentTile.getColor(Direction.WEST) == wallColor)
+			return true;
+		// arriba der
+		if (i == 0 && j == dimension - 1
+				&& currentTile.getColor(Direction.NORTH) == wallColor
+				&& currentTile.getColor(Direction.EAST) == wallColor)
+			return true;
+		// abajo izq
+		if (i == dimension - 1 && j == 0
+				&& currentTile.getColor(Direction.SOUTH) == wallColor
+				&& currentTile.getColor(Direction.WEST) == wallColor)
+			return true;
+		// abajo der
+		if (i == dimension - 1 && j == dimension - 1
+				&& currentTile.getColor(Direction.SOUTH) == wallColor
+				&& currentTile.getColor(Direction.EAST) == wallColor)
+			return true;
+		return false;
+	}
+
+	private boolean correctBorder(Tile currentTile, int i, int j) {
+		int dimension = board.getDimension();
+		if (hasOneWall(currentTile)) {
+			if (i == 0 && currentTile.getColor(Direction.NORTH) == wallColor)
+				return true;
+			if (i == dimension - 1
+					&& currentTile.getColor(Direction.SOUTH) == wallColor)
+				return true;
+			if (j == 0 && currentTile.getColor(Direction.WEST) == wallColor)
+				return true;
+			if (j == dimension - 1
+					&& currentTile.getColor(Direction.EAST) == wallColor)
+				return true;
+		}
+
+		return false;
 	}
 }

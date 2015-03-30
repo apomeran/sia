@@ -8,8 +8,8 @@ import edu.itba.sia.model.Tile;
 public class E2GoalState extends E2State {
 
 	public E2GoalState(Board board, List<Tile> remainingTiles,
-			int[][] lookUpTableState) {
-		super(board, remainingTiles, lookUpTableState);
+			int[][] lookUpTableState, int wallColor) {
+		super(board, remainingTiles, lookUpTableState, wallColor);
 	}
 
 	@Override

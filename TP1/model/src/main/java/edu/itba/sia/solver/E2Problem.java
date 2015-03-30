@@ -80,7 +80,8 @@ public class E2Problem implements GPSProblem {
 					System.out.println("Parameters should be numeric");
 					return;
 				}
-				if (heur != 1 && heur != 2 && heur != 3 && heur != 4 && heur != 5) {
+				if (heur != 1 && heur != 2 && heur != 3 && heur != 4
+						&& heur != 5) {
 					System.out
 							.println("Wrong parameter: first parameter should be 1, 2, 3, 4 or 5, indicating the number of heuristic selected");
 				}
@@ -137,7 +138,7 @@ public class E2Problem implements GPSProblem {
 		}
 		wallColor = getWallsColor(tileList);
 		shuffle(tileList);
-		return new E2State(new Board(dimension), tileList, null);
+		return new E2State(new Board(dimension), tileList, null, wallColor);
 	}
 
 	private int getWallsColor(List<Tile> tileList2) {
@@ -185,7 +186,7 @@ public class E2Problem implements GPSProblem {
 	@Override
 	public GPSState getGoalState() {
 		return new E2GoalState(new Board(dimension), new LinkedList<Tile>(),
-				null);
+				null, wallColor);
 	}
 
 	@Override
@@ -197,7 +198,7 @@ public class E2Problem implements GPSProblem {
 				for (int j = 0; j < dimension; j++) {
 					for (int r = 0; r < 4; r++) {
 						rules.add(new InsertTile(new Tile(t.getPattern()), r,
-								i, j));
+								i, j, wallColor));
 					}
 				}
 			}
@@ -211,7 +212,7 @@ public class E2Problem implements GPSProblem {
 		E2State e = (E2State) state;
 		switch (heuristic) {
 		case 1:
-			return e.firstHeuristic();
+			return e.spiralHeuristic();
 		case 2:
 			return e.openEdgesHeuristic();
 		case 3:
@@ -221,7 +222,7 @@ public class E2Problem implements GPSProblem {
 		case 5:
 			return e.combinationHeuristic();
 		default:
-			return e.firstHeuristic();
+			return e.spiralHeuristic();
 		}
 	}
 

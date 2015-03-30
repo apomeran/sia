@@ -54,7 +54,6 @@ public class E2Engine extends GPSEngine {
 							+ getOpen().get(i).getCost()) {
 				i++;
 			}
-//			if (problem.getHValue(node.getState()) < 100)
 				getOpen().add(i, node);
 			break;
 		case Greedy:
@@ -64,6 +63,7 @@ public class E2Engine extends GPSEngine {
 					&& hValueGreedy > problem.getHValue(getOpen().get(j).getState())) {
 				j++;
 			}
+			 //TODO arreglarlo bien.s
 				open.add(j, node);
 			break;
 		case IDFS:
