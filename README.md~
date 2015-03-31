@@ -7,7 +7,7 @@ TPE 1
 Artificial Inteligence Systems
 Eternity II Solver
 
-Group No2
+Group 2
 
 Pomerantz Alan
 Lori Tomas
@@ -26,7 +26,7 @@ Then you can run with the following command:
 
 $> java -jar
 
-Params:
+Paráms:
 
 First param, method strategy
 

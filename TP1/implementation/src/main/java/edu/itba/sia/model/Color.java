@@ -1,35 +1,30 @@
 package edu.itba.sia.model;
 
-public enum Color
-{
-    WHITE(),
+public enum Color {
+	GREY(), WHITE(),
 
-    BLACK(),
+	BLACK(),
 
-    YELLOW(),
+	YELLOW(),
 
-    GREY(),
+	ORANGE(),
 
-    ORANGE(),
+	RED(),
 
-    RED(),
+	BLUE(),
 
-    BLUE(),
+	PINK(),
 
-    PINK(),
+	PURPLE(),
 
-    PURPLE(),
+	BROWN(),
 
-    BROWN(),
+	GREEN(),
 
-    GREEN(),
+	GOLD();
 
-    GOLD();
-
-
-    public int getColor()
-    {
-        return this.ordinal();
-    }
+	public int getColor() {
+		return this.ordinal();
+	}
 
 }

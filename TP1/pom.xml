@@ -12,8 +12,7 @@
 
     <modules>
         <module>gps</module>
-        <module>builder</module>
-        <module>model</module>
+        <module>implementation</module>
     </modules>
 
 </project>

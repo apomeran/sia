@@ -56,6 +56,7 @@ public abstract class GPSEngine {
 				closed.add(currentNode);
 				open.remove(0);
 				if (isGoal(currentNode)) {
+					
 					finished = true;
 					System.out.println(currentNode.getSolution());
 					System.out.println("Expanded nodes: " + explosionCounter);
@@ -92,9 +93,9 @@ public abstract class GPSEngine {
 		for (GPSRule rule : problem.getRules()) {
 			GPSState newState = null;
 			try {
-				// System.out.println("Trying to insert in " + rule.getRow() +
-				// ","
-				// + rule.getCol() + " --> " + rule.getInsertTile());
+//				 System.out.println("Trying to insert in " + rule.getRow() +
+//				 ","
+//				 + rule.getCol() + " --> " + rule.getInsertTile());
 				newState = rule.evalRule(node.getState());
 				// if (newState != null)
 				// System.out.println(newState);
@@ -111,10 +112,10 @@ public abstract class GPSEngine {
 						node.getDepth() + 1);
 				newNode.setParent(node);
 				addNode(newNode);
-				// System.out.println("Success! open:" + getOpen().size());
+//				 System.out.println("Success! open:" + getOpen().size());
 
 			} else {
-				// System.out.println("Failed open:" + getOpen().size());
+//				 System.out.println("Failed open:" + getOpen().size());
 
 			}
 //			System.out.println("-");

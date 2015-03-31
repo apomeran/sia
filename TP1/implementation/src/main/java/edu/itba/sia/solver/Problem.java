@@ -61,9 +61,9 @@ public class Problem implements GPSProblem
                     System.out.println("Parameters should be numeric");
                     return;
                 }
-                if (size < 2 || size > 6)
+                if (size < 2 || size > 7)
                 {
-                    System.out.println("The board dimensions available are 2, 4, 5, 6");
+                    System.out.println("The board dimensions available are 2, 4, 5, 6,7");
                     return;
                 }
             }
@@ -90,9 +90,9 @@ public class Problem implements GPSProblem
                 {
                     System.out.println("Wrong parameter: first parameter should be 1, 2, 3, 4 or 5, indicating the number of heuristic selected");
                 }
-                if (size < 2 || size > 6)
+                if (size < 2 || size > 7)
                 {
-                    System.out.println("The board dimensions available are 2, 4, 5, 6");
+                    System.out.println("The board dimensions available are 2, 4, 5, 6,7");
                     return;
                 }
             }
@@ -211,7 +211,7 @@ public class Problem implements GPSProblem
             case 2:
                 return e.openEdgesHeuristic();
             case 3:
-                return e.remainingColorsHeuristic();
+                return e.anotherCombinationHeuristic();
             case 4:
                 return e.manhattanDistanceHeuristic();
             case 5:
