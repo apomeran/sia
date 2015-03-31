@@ -1,8 +1,5 @@
-package edu.itba.sia;
+package edu.itba.sia.solver;
 
-import java.util.Arrays;
-
-import edu.itba.sia.enums.TileRotation;
 import edu.itba.sia.model.Tile;
 
 public class E2GlobalState {

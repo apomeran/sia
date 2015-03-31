@@ -7,13 +7,13 @@ import edu.itba.sia.classes.GPSEngine;
 import edu.itba.sia.classes.GPSNode;
 import edu.itba.sia.classes.SearchStrategy;
 
-public class E2Engine extends GPSEngine {
+public class Engine extends GPSEngine {
 	final static int initialDepth = 1;
 
 	private int MAXIDFSDEPTH;
 
-	public E2Engine(SearchStrategy strategy) {
-		engine(new E2Problem(), strategy);
+	public Engine(SearchStrategy strategy) {
+		engine(new Problem(), strategy);
 		MAXIDFSDEPTH = initialDepth;
 	}
 

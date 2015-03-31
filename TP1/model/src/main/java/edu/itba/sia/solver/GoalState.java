@@ -1,14 +1,15 @@
-package edu.itba.sia;
+package edu.itba.sia.solver;
 import java.util.List;
 
 import edu.itba.sia.API.GPSState;
 import edu.itba.sia.model.Board;
 import edu.itba.sia.model.Tile;
 
-public class E2GoalState extends E2State {
+public class GoalState extends State
+{
 
-	public E2GoalState(Board board, List<Tile> remainingTiles,
-			int[][] lookUpTableState, int wallColor) {
+	public GoalState(Board board, List<Tile> remainingTiles,
+                     int[][] lookUpTableState, int wallColor) {
 		super(board, remainingTiles, lookUpTableState, wallColor);
 	}
 
@@ -16,7 +17,7 @@ public class E2GoalState extends E2State {
 	public boolean compare(GPSState state) {
 		if (state == null)
 			return false;
-		E2State state2 = (E2State) state;
+		State state2 = (State) state;
 		return state2.getRemainingTiles().isEmpty();
 	}
 

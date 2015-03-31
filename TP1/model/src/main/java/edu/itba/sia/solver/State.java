@@ -1,13 +1,13 @@
-package edu.itba.sia;
+package edu.itba.sia.solver;
 
 import java.util.List;
 
 import edu.itba.sia.API.GPSState;
-import edu.itba.sia.enums.Direction;
+import edu.itba.sia.model.Direction;
 import edu.itba.sia.model.Board;
 import edu.itba.sia.model.Tile;
 
-public class E2State implements GPSState {
+public class State implements GPSState {
 
 	private Board board;
 	private List<Tile> remainingTiles;
@@ -19,8 +19,8 @@ public class E2State implements GPSState {
 		return remainingTiles;
 	}
 
-	public E2State(Board board, List<Tile> remainingTiles,
-			int[][] lookUpTableState, int wallcolor) {
+	public State(Board board, List<Tile> remainingTiles,
+                 int[][] lookUpTableState, int wallcolor) {
 		this.board = board;
 		this.remainingTiles = remainingTiles;
 		this.lookUpTableState = lookUpTableState;
@@ -31,8 +31,8 @@ public class E2State implements GPSState {
 	public boolean compare(GPSState state) {
 		if (state == null)
 			return false;
-		E2State state2 = (E2State) state;
-		return (board.compareBoard(state2.getBoard()) && remainingTiles.size() == state2
+		State state2 = (State) state;
+		return (board.isSameBoardAs(state2.getBoard()) && remainingTiles.size() == state2
 				.getRemainingTiles().size());
 	}
 
@@ -72,8 +72,8 @@ public class E2State implements GPSState {
 
 	public int spiralHeuristic() {
 		int consecutive = 0;
-		int dimension = board.getDimension();
-		int totalTiles = board.getDimension() * board.getDimension();
+		int dimension = board.getSize();
+		int totalTiles = board.getSize() * board.getSize();
 		int hValue = getSupposedWeight();
 
 		for (int i = 0; i < dimension; i++) {
@@ -116,7 +116,7 @@ public class E2State implements GPSState {
 	// Open edges
 	public int openEdgesHeuristic() {
 		int heuristicValue = 0;
-		int size = board.getDimension();
+		int size = board.getSize();
 
 		// Corners
 		heuristicValue += (board.getTiles()[0][1] == null ? 1 : 0);
@@ -186,10 +186,10 @@ public class E2State implements GPSState {
 		double factor = 1.0;
 		int complete = 0;
 		int actual = 0;
-		int n = board.getDimension();
+		int n = board.getSize();
 		int constant = n / 2;
-		for (int i = 0; i < board.getDimension(); i++) {
-			for (int j = 0; j < board.getDimension(); j++) {
+		for (int i = 0; i < board.getSize(); i++) {
+			for (int j = 0; j < board.getSize(); j++) {
 				int distance = Math.abs(constant - i) + Math.abs(constant - j);
 				if (!(board.getTiles()[i][j] == null)) {
 					actual += distance;
@@ -203,8 +203,8 @@ public class E2State implements GPSState {
 
 	// all 5 heuristics combined
 	public int combinationHeuristic() {
-		if (getRemainingTiles().size() > getBoard().getDimension()
-				* getBoard().getDimension() / 12) {
+		if (getRemainingTiles().size() > getBoard().getSize()
+				* getBoard().getSize() / 12) {
 			return spiralHeuristic();
 		} else {
 			return openEdgesHeuristic();
@@ -234,7 +234,7 @@ public class E2State implements GPSState {
 	}
 
 	private boolean correctCorner(Tile currentTile, int i, int j) {
-		int dimension = board.getDimension();
+		int dimension = board.getSize();
 		// arriba izq
 		if (i == 0 && j == 0
 				&& currentTile.getColor(Direction.NORTH) == wallColor
@@ -259,7 +259,7 @@ public class E2State implements GPSState {
 	}
 
 	private boolean correctBorder(Tile currentTile, int i, int j) {
-		int dimension = board.getDimension();
+		int dimension = board.getSize();
 		if (hasOneWall(currentTile)) {
 			if (i == 0 && currentTile.getColor(Direction.NORTH) == wallColor)
 				return true;

@@ -1,8 +1,4 @@
-package edu.itba.sia;
-
-import java.util.Random;
-
-import edu.itba.sia.model.Tile;
+package edu.itba.sia.builder;
 
 public class BoardBuilder {
 
@@ -35,7 +31,7 @@ public class BoardBuilder {
 //		if (size == 2) {
 //			board[size - 1][0] = new Tile(board[size - 2][0].downColor(),
 //					board[size - 1][1].leftColor(), 0, 0);
-//			
+//
 //			return board; // WE ARE DONE!
 //		} else {
 //			board[size - 1][0] = new Tile(randomColor(numColors),

@@ -1,129 +1,126 @@
 package edu.itba.sia.model;
-import edu.itba.sia.enums.Direction;
 
 
-public class Board {
+public class Board
+{
 
-	int dimension;
+    Tile[][] tiles;
+	int size;
 
-	Tile[][] tiles;
-
-	public Board(int dimension) {
-		this.dimension = dimension;
-		tiles = new Tile[dimension][dimension];
+	public Board(int size)
+    {
+        tiles = new Tile[size][size];
+        this.size = size;
 	}
 
-	public Board(Board board) {
-		this.dimension = board.getTiles().length;
-		tiles = new Tile[dimension][dimension];
-		for (int i = 0; i < dimension; i++) {
-			for (int j = 0; j < dimension; j++) {
-				tiles[i][j] = board.getTiles()[i][j];
-			}
-		}
+	public Board(Board board)
+    {
+		this.size = board.getSize();
+
+		tiles = new Tile[size][];
+        for(int i = 0; i < size; i++)
+        {
+            tiles[i] = board.getTiles()[i].clone();
+        }
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
+    public Tile[][] getTiles()
+    {
+        return tiles;
+    }
 
-		Board otherBoard = (Board) obj;
-		boolean matched = false;
-		for (int i = 0; i < 4 && !matched; i++) {
-			if (tiles[0][0] == otherBoard.getTiles()[0][0]) {
-				if (compareBoard(otherBoard)) {
-					return true;
-				}
-			}
-			rotate(1);
-		}
+    public int getSize()
+    {
+        return size;
+    }
 
-		return false;
-	}
-
-	public boolean compareBoard(Board otherBoard) {
-		for (int i = 0; i < dimension; i++) {
-			for (int j = 0; j < dimension; j++) {
+    public boolean isSameBoardAs(Board otherBoard)
+    {
+		for (int i = 0; i < size; i++)
+        {
+			for (int j = 0; j < size; j++)
+            {
 				if (tiles[i][j] != otherBoard.getTiles()[i][j])
-					return false;
+                {
+                    return false;
+                }
 			}
 		}
 		return true;
 	}
 
-	public Tile[][] getTiles() {
-		return tiles;
-	}
+    public boolean insert(Tile t, int row, int col)
+    {
+        if (tiles[row][col] != null)
+        {
+            return false;
+        }
+        boolean valid = true;
 
-	private void rotate(int times) {
+        if (col + 1 < size)
+        {
+            valid = t.matches(tiles[row][col + 1], Direction.WEST);
+        }
+        else if (col - 1 >= 0)
+        {
+            valid = valid && t.matches(tiles[row][col - 1], Direction.EAST);
+        }
+        if (row - 1 >= 0)
+        {
+            valid = valid && t.matches(tiles[row - 1][col], Direction.SOUTH);
+        }
+        if (row + 1 < size)
+        {
+            valid = valid && t.matches(tiles[row + 1][col], Direction.NORTH);
+        }
+        tiles[row][col] = t;
+
+        return true;
+    }
+
+	private void rotate()
+    {
 		Board b;
-		while (times > 0) {
-			b = new Board(dimension);
-			for (int i = 0; i < dimension; i++) {
-				for (int j = 0; j < dimension; j++) {
-					b.getTiles()[j][dimension - i - 1] = tiles[i][j];
-				}
-			}
-			tiles = b.getTiles();
-			times--;
-		}
+        b = new Board(size);
+        for (int i = 0; i < size; i++)
+        {
+            for (int j = 0; j < size; j++)
+            {
+                b.getTiles()[j][size - i - 1] = tiles[i][j];
+            }
+        }
+        tiles = b.getTiles();
 	}
 
-	public boolean insert(Tile t, int row, int col) {
-		if (tiles[row][col] != null)
-			return false;
-		boolean valid = true;	
+    @Override
+    public boolean equals(Object obj)
+    {
+        Board otherBoard = (Board) obj;
+        for (int i = 0; i < 4; i++)
+        {
+            if (isSameBoardAs(otherBoard))
+            {
+                return true;
+            }
+            rotate();
+        }
 
-		if (col + 1 < dimension) {
-			valid = t.fits(tiles[row][col + 1], Direction.WEST);
-		}
-		if (col - 1 >= 0) {
-			valid = valid && t.fits(tiles[row][col - 1], Direction.EAST);
-		}
-		if (row - 1 >= 0) {
-			valid = valid && t.fits(tiles[row - 1][col], Direction.SOUTH);
-		}
-		if (row + 1 < dimension) {
-			valid = valid && t.fits(tiles[row + 1][col], Direction.NORTH);
-		}
-		if (valid) {
-			tiles[row][col] = t;
-		}
+        return false;
+    }
 
-		return valid;
-	}
-
-	public boolean isComplete() {
-		for (int i = 0; i < tiles.length; i++) {
-			for (int j = 0; j < tiles.length; j++) {
-				if (tiles[i][j] == null) {
-					return false;
-				}
-			}
-		}
-		return true;
-	}
-
-	public int getDimension() {
-		return dimension;
-	}
-
+    @Override
 	public String toString() {
-		String s = "";
+		StringBuilder boardBuilder = new StringBuilder();
 		for (int i = 0; i < tiles.length; i++) {
 			for (int j = 0; j < tiles.length; j++) {
-				String aux = tiles[i][j] == null ? "       " : tiles[i][j]
-						.toString();
-				s += "[" + aux + "] ";
+				String tile = tiles[i][j] == null ? "       " : tiles[i][j].toString();
+				boardBuilder.append("[");
+                boardBuilder.append(tile);
+                boardBuilder.append("] ");
 			}
-			s += '\n';
+			boardBuilder.append("\n");
 		}
-		return s;
+		return boardBuilder.toString();
 	}
 
 }

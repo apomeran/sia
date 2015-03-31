@@ -2,11 +2,11 @@ package edu.itba.sia.rules;
 
 import java.util.LinkedList;
 
-import edu.itba.sia.E2GlobalState;
-import edu.itba.sia.E2State;
+import edu.itba.sia.solver.E2GlobalState;
+import edu.itba.sia.solver.State;
 import edu.itba.sia.API.GPSRule;
 import edu.itba.sia.API.GPSState;
-import edu.itba.sia.enums.Direction;
+import edu.itba.sia.model.Direction;
 import edu.itba.sia.exceptions.NotAppliableException;
 import edu.itba.sia.model.Board;
 import edu.itba.sia.model.Tile;
@@ -33,7 +33,7 @@ public class InsertTile implements GPSRule {
 		switch (insertTile.getType()) {
 		case CORNER:
 			return 1;
-		case WALL:
+		case EDGE:
 			return 2;
 		case INNER:
 			return 3;
@@ -49,7 +49,7 @@ public class InsertTile implements GPSRule {
 
 	@Override
 	public GPSState evalRule(GPSState state) throws NotAppliableException {
-		E2State e = (E2State) state;
+		State e = (State) state;
 
 		if (!e.getRemainingTiles().contains(insertTile)) {
 			// do not add to open if insertTile is already in the board.
@@ -58,8 +58,8 @@ public class InsertTile implements GPSRule {
 
 		LinkedList<Tile> remTiles = new LinkedList<Tile>();
 		for (Tile t : e.getRemainingTiles())
-			remTiles.add(new Tile(t.getPattern()));
-		E2State result = new E2State(new Board(e.getBoard()), remTiles, null,
+			remTiles.add(new Tile(t.getCompressedColors()));
+		State result = new State(new Board(e.getBoard()), remTiles, null,
 				wallColor);
 
 		insertTile.rotate(rotateTimes);
@@ -86,8 +86,8 @@ public class InsertTile implements GPSRule {
 		return col;
 	}
 
-	public boolean isOk(E2State e) {
-		dimension = e.getBoard().getDimension();
+	public boolean isOk(State e) {
+		dimension = e.getBoard().getSize();
 		int depth = dimension % 2 == 0 ? dimension / 2 : dimension / 2 + 1;
 		int totalTiles = dimension * dimension;
 		int hValue = e.getSupposedWeight();
