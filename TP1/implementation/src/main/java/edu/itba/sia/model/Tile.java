@@ -111,26 +111,37 @@ public class Tile
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(Object obj)
+    {
         if (this == obj)
+        {
             return true;
+        }
         if (obj == null)
+        {
             return false;
+        }
         if (getClass() != obj.getClass())
+        {
             return false;
+        }
         Tile other = (Tile) obj;
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++)
+        {
             other.rotate(i);
             if (compressedColors == other.compressedColors)
+            {
                 return true;
+            }
         }
         return false;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         StringBuilder s = new StringBuilder();
-        s.append(getColor(Direction.NORTH)) ;
+        s.append(getColor(Direction.NORTH));
         s.append(",");
         s.append(getColor(Direction.EAST));
         s.append(",");
@@ -140,7 +151,8 @@ public class Tile
         return s.toString();
     }
 
-    private void rotate() {
+    private void rotate()
+    {
         int bitMask = 0x000000ff;
         int maskedColors = compressedColors & bitMask;
         compressedColors >>= 8;

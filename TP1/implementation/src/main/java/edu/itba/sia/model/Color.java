@@ -27,8 +27,9 @@ public enum Color
     GOLD();
 
 
-	public int getColor() {
-		return this.ordinal();
-	}
+    public int getColor()
+    {
+        return this.ordinal();
+    }
 
 }

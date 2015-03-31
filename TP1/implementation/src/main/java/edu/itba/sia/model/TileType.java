@@ -1,6 +1,7 @@
 package edu.itba.sia.model;
 
-public enum TileType {
+public enum TileType
+{
 
     CORNER,
 

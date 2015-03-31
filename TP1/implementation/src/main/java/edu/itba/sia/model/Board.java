@@ -5,24 +5,24 @@ public class Board
 {
 
     Tile[][] tiles;
-	int size;
+    int size;
 
-	public Board(int size)
+    public Board(int size)
     {
         tiles = new Tile[size][size];
         this.size = size;
-	}
+    }
 
-	public Board(Board board)
+    public Board(Board board)
     {
-		this.size = board.getSize();
+        this.size = board.getSize();
 
-		tiles = new Tile[size][];
-        for(int i = 0; i < size; i++)
+        tiles = new Tile[size][];
+        for (int i = 0; i < size; i++)
         {
             tiles[i] = board.getTiles()[i].clone();
         }
-	}
+    }
 
     public Tile[][] getTiles()
     {
@@ -36,18 +36,18 @@ public class Board
 
     public boolean isSameBoardAs(Board otherBoard)
     {
-		for (int i = 0; i < size; i++)
+        for (int i = 0; i < size; i++)
         {
-			for (int j = 0; j < size; j++)
+            for (int j = 0; j < size; j++)
             {
-				if (tiles[i][j] != otherBoard.getTiles()[i][j])
+                if (tiles[i][j] != otherBoard.getTiles()[i][j])
                 {
                     return false;
                 }
-			}
-		}
-		return true;
-	}
+            }
+        }
+        return true;
+    }
 
     public boolean insert(Tile t, int row, int col)
     {
@@ -78,9 +78,9 @@ public class Board
         return true;
     }
 
-	private void rotate()
+    private void rotate()
     {
-		Board b;
+        Board b;
         b = new Board(size);
         for (int i = 0; i < size; i++)
         {
@@ -90,7 +90,7 @@ public class Board
             }
         }
         tiles = b.getTiles();
-	}
+    }
 
     @Override
     public boolean equals(Object obj)
@@ -109,18 +109,21 @@ public class Board
     }
 
     @Override
-	public String toString() {
-		StringBuilder boardBuilder = new StringBuilder();
-		for (int i = 0; i < tiles.length; i++) {
-			for (int j = 0; j < tiles.length; j++) {
-				String tile = tiles[i][j] == null ? "       " : tiles[i][j].toString();
-				boardBuilder.append("[");
+    public String toString()
+    {
+        StringBuilder boardBuilder = new StringBuilder();
+        for (int i = 0; i < tiles.length; i++)
+        {
+            for (int j = 0; j < tiles.length; j++)
+            {
+                String tile = tiles[i][j] == null ? "       " : tiles[i][j].toString();
+                boardBuilder.append("[");
                 boardBuilder.append(tile);
                 boardBuilder.append("] ");
-			}
-			boardBuilder.append("\n");
-		}
-		return boardBuilder.toString();
-	}
+            }
+            boardBuilder.append("\n");
+        }
+        return boardBuilder.toString();
+    }
 
 }

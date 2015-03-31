@@ -10,8 +10,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>eternity-ii-model</artifactId>
-    <name>Eternity II :: Model</name>
+    <artifactId>eternity-ii-implementation</artifactId>
+    <name>Eternity II :: Implementation</name>
 
     <dependencies>
         <dependency>
