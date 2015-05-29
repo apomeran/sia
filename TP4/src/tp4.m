@@ -1,4 +1,4 @@
-function out = tp4(N,file, layerSize,fitnessFunc, selectionFunc, selectionNumber, mixSelectionNumber, crossoverFunc,    
+function out = tp4(N,sampleFunctionIndex, layerSize,fitnessFunc, selectionFunc, selectionNumber, mixSelectionNumber, crossoverFunc,    
   crossoverProbability,mutationFunc, mutationProbability, replacementSelectionFunc, replacementMethod, maxGenerations, targetFitness, 
   trainingSeasons, structurePercentage, unmutableGenerations)
 
@@ -28,21 +28,33 @@ function out = tp4(N,file, layerSize,fitnessFunc, selectionFunc, selectionNumber
 
   %Select one function pfor the index
   func = func{funcIndex, 1};
-
-
+   
   x1 = [0 : 0.1 : 1];
   y1 = sin(10*x1) .* e.^(-1*x1);
-  x5 = [-4 : 0.15 : 4];
+  x2 = [-6.3 : 0.1 : 6.3];
+  y2 = 13 * sin(x2) .* cos(x2).^2;
+  x5 = [-4 : 0.2 : 4];
   y5 = tanh(0.1*x5) + sin(3*x5);
   x11 = [-1:0.01:1];
   y11 = sin(x11 + 2 * x11.^ 2 + 3 * x11.^3);
+
+  sampleFunc{1,1} = x1;
+  sampleFunc{1,2} = y1;
+  sampleFunc{2,1} = x2;
+  sampleFunc{2,2} = y2;
+  sampleFunc{5,1} = x5;
+  sampleFunc{5,2} = y5;
+  sampleFunc{11,1} = x11; 
+  sampleFunc{11,2} = y11; 
+  
+  x = sampleFunc{sampleFunctionIndex,1};
+  y = sampleFunc{sampleFunctionIndex,2}; 
+
   %meanX = mean(x);
   %meanY = mean(y);
   %devStdX = std(x);
   %devStdY = std(y);
   
-  x = x11;
-  y = y11;
   %y = y ./ max(y);
   %x = x ./ max(x);   
   learnInMtx = x';
