@@ -26,7 +26,7 @@ Genetic Algorithms
         - unmutableGenerations (int): number of generations to wait for the maximum fitness to change.
 
 QUICK LAUNCH:
-tp4(30, 5,  [1 15 1], @quadraticECMFitness, @eliteSelection, 3, 3, @onePointCrossover, 0.3, @oneBitMutation, 0.01, @eliteSelection, @replacement1, 1000, 10e10, 3, 0, 10)
+tp4(30, 5, [1 25 1], @quadraticECMFitness, @eliteSelection, 3, 3, @onePointCrossover, 0.3, @oneBitMutation, 0.01, @eliteSelection, @replacement1, 150, 10e10, 3, 0, 10)
 
     
 Loading functions into octave workspace:
