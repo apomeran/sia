@@ -1,0 +1,46 @@
+TPE2 - MultiLayer Perceptron
+=========
+
+ITBA - 2015 
+
+=========
+
+Loading all the files into octave workspace (if it's not done automatically).
+
+
+To train the perceptron you should call the octave function:
+        - tp2(file, layerSize, beta, learningFactor, alpha, epsilon, activationFunction, 
+                                iterationCount, adaptation, consistency, amount, errorRates)
+    
+Quick Launch:
+	
+tp2("samples.txt",[1 10 1],1,0.1,0.9,0.001,2,5,[0.01 0.1], 10, 600, [0.01])
+
+
+REFERENCE 
+=====
+
+
+Parameters:
+        + file (string): file where the function is sampled -> "samples.txt"
+        + layerSize (array): sizes of the perceptron layers -> [1 15 1]
+        + beta (double): beta value for the activation function -> 1
+        + learningFactor (double): parameter that steepens the learning curve -> 0.1
+        + alpha (double): momentum variation parameter -> 0.9
+        + epsilon (double): value to compare with the mean squared error -> 0.001
+        + activationFunction (integer): activation function [values: 1=sigmoid, 2=exponential]
+        + iterationCount (integer): number of iterations of the backpropagation algorithm being 0 infinite iterations.
+        + adaptation (array): alpha and beta for etha adaptative improvement -> [0.01 0.1]
+        + consistency (integer): consistency of the adaptative eta modification -> 10
+        + amount (integer): amount of input patterns to train
+        + errorRates (array): possible error values to compare with the outputs
+Return values:
+        - perceptron: Matrix that represents a trained perceptron (weights between neurons and layers).
+
+
+       
+
+Note: [It automatically generate statistics and a 3D Plot for the recently created and trained perceptron]
+
+
+
