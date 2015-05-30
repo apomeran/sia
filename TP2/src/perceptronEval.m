@@ -14,7 +14,11 @@ function [layers, resp] = perceptronEval(in, p, beta, func)
     resp(1, :) = layers(1, :);
     for (i = [2:numLayers+1])
         layers(i, :) = [nextLayer*p(:, :, i-1)];
-        resp(i, :) = funcPosta(layers(i, :), beta);
+        if (i == numLayers+1)
+	  resp(i, :) = funcLineal(layers(i, :), beta);
+        else 
+          resp(i, :) = funcPosta(layers(i, :), beta);
+        end
         nextLayer = [-1 resp(i, :)];
     end
 end
