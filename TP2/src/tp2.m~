@@ -54,8 +54,8 @@ function out = tp2(sampleFunctionIndex, layerSize, beta, learningFactor, alpha, 
   x = sampleFunc{sampleFunctionIndex,1};
   y = sampleFunc{sampleFunctionIndex,2}; 
 
-  x = x ./ max(x);
-  y = y ./ 2;
+  x = ((x - mean(x)) / std(x));
+  %y = ((y - mean(y)) / std(y));
   learnInMtx = x';
   learnOutMtx = y';
   testInMtx = learnInMtx;
