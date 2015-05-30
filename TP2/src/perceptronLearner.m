@@ -17,7 +17,7 @@ function [modifiedPerceptron differ] = perceptronLearner(in, out, p, beta, learn
     last_deltas_index = numberOfLayers+1;
 
     % Calculate δ for OUT layer		
-    deltas(last_deltas_index, :) = [0 ((GHi + 0.1)).*(S-Hi)];
+    deltas(last_deltas_index, :) = [0 ((beta)).*(S-Hi)];
     
     		
 
