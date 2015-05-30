@@ -20,6 +20,7 @@ function trainedPerceptron = perceptronTrainer(inMtx, outMtx, p, beta, learningF
     arraydiff = [];
     storedAlpha = alpha;
     consistentStepsCount = 0;
+    kickthreshhold = 0.05;
     
     while (k < iterationCount)
       r = [];
@@ -61,6 +62,30 @@ function trainedPerceptron = perceptronTrainer(inMtx, outMtx, p, beta, learningF
           consistentStepsCount = 0;
         end
       end
+      
+      %give it a kick! (in case it is a local minima)
+      if (learningFactor < kickthreshhold)
+        if (k < 100000)
+          learningFactor = 0.0001;
+          kickthreshhold = 0.00001;
+        end
+        if (k < 30000)
+          learningFactor = 0.001;
+          kickthreshhold = 0.0001;
+        end
+        if (k < 10000)
+          learningFactor = 0.01;
+          kickthreshhold = 0.001;
+        end
+        if (k < 2000)
+          learningFactor = 0.05;
+          kickthreshhold = 0.01;
+        end 
+        if (k < 400)
+          learningFactor = 0.1;
+          kickthreshhold = 0.05;
+        end 
+       end
 
       oldPerceptron = p;
       %show the ECM
