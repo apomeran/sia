@@ -12,15 +12,12 @@ function [modifiedPerceptron differ] = perceptronLearner(in, out, p, beta, learn
 
     S = out;
     Vi = result(numberOfLayers+1, :);
-    if (abs(S(1) - Vi(1)) < 0.001)
-      %keyboard;
-    end
     Hi = layers(numberOfLayers+1, :);
     GHi = derFunc(Hi, beta);
     last_deltas_index = numberOfLayers+1;
 
     % Calculate δ for OUT layer		
-    deltas(last_deltas_index, :) = [0 ((1)).*(S-Hi)];
+    deltas(last_deltas_index, :) = [0 ((GHi)).*(S-Hi)];
     
     		
 

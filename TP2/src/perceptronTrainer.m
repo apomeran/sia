@@ -73,6 +73,10 @@ function trainedPerceptron = perceptronTrainer(inMtx, outMtx, p, beta, learningF
           learningFactor = 0.001;
           kickthreshhold = 0.0001;
         end
+        if (k < 20000)
+          learningFactor = 0.005;
+          kickthreshhold = 0.005;
+        end
         if (k < 10000)
           learningFactor = 0.01;
           kickthreshhold = 0.001;
@@ -96,22 +100,17 @@ function trainedPerceptron = perceptronTrainer(inMtx, outMtx, p, beta, learningF
       stats(p, inMtx, outMtx, testIn, testOut, beta, func, arraydiff);
       disp(diff)
       fflush(stdout);
-      %disp(p)
       counterPatternSkipped = 0;
       if (diff > epsilon)
         for (i = evaluationPatternOrder')
           out = outMtx(i, 1);
-	  if(abs(out-r(i)) > 0.000)
           	[p differentials(:, :, :, i)] = perceptronLearner(inMtx(i, :), outMtx(i, :), p, beta, learningFactor, func, derivatedFunc, 				alpha, differentials(:, :, :, i));
 	  
-          else
-             counterPatternSkipped++;
           end
         end
       else
         break;
       end
-      printf("SKipped %d\n", counterPatternSkipped); 
       k++;
     end
 

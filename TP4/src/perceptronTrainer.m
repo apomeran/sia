@@ -20,6 +20,7 @@ function trainedPerceptron = perceptronTrainer(inMtx, outMtx, p, beta, learningF
     arraydiff = [];
     storedAlpha = alpha;
     consistentStepsCount = 0;
+    kickthreshhold = 0.05;
     
     while (k < iterationCount)
       r = [];
@@ -61,31 +62,59 @@ function trainedPerceptron = perceptronTrainer(inMtx, outMtx, p, beta, learningF
           consistentStepsCount = 0;
         end
       end
+      
+      %give it a kick! (in case it is a local minima)
+      if (learningFactor < kickthreshhold)
+        if (k < 100000)
+          learningFactor = 0.0001;
+          kickthreshhold = 0.00001;
+        end
+        if (k < 30000)
+          learningFactor = 0.001;
+          kickthreshhold = 0.0001;
+        end
+        if (k < 20000)
+          learningFactor = 0.005;
+          kickthreshhold = 0.005;
+        end
+        if (k < 10000)
+          learningFactor = 0.01;
+          kickthreshhold = 0.001;
+        end
+        if (k < 2000)
+          learningFactor = 0.05;
+          kickthreshhold = 0.01;
+        end 
+        if (k < 400)
+          learningFactor = 0.1;
+          kickthreshhold = 0.05;
+        end 
+       end
 
       oldPerceptron = p;
       %show the ECM
       %comment to improve performance
-      %printf("K= %d\t ECM %f\t Etha %f \n",k, diff,learningFactor);
+      printf("K= %d\t ECM %f\t Etha %f \n",k, diff,learningFactor);
       
       arraydiff(k+1) = diff;
-      %stats(p, inMtx, outMtx, testIn, testOut, beta, func, arraydiff);
-      %disp(diff)
-      %fflush(stdout);
-      %disp(p)
+      stats(p, inMtx, outMtx, testIn, testOut, beta, func, arraydiff);
+      disp(diff)
+      fflush(stdout);
+      counterPatternSkipped = 0;
       if (diff > epsilon)
         for (i = evaluationPatternOrder')
           out = outMtx(i, 1);
           	[p differentials(:, :, :, i)] = perceptronLearner(inMtx(i, :), outMtx(i, :), p, beta, learningFactor, func, derivatedFunc, 				alpha, differentials(:, :, :, i));
+	  
           end
         end
       else
         break;
       end
-      %printf("SKipped %d\n", counterPatternSkipped); 
       k++;
     end
 
-    %k
+    k
 
     trainedPerceptron = p;
 

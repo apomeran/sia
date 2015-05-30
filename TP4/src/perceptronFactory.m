@@ -1,6 +1,6 @@
 function out = perceptronFactory(layerSize)
     maxSize = max(layerSize);
-    out = rand(maxSize + 1, maxSize, length(layerSize) - 1) - 0.5;
+    out = (rand(maxSize + 1, maxSize, length(layerSize) - 1) - 0.5);
     for(i = [1:length(layerSize)-1])
        thisLayerSize = layerSize(i);
        nextLayerSize = layerSize(i+1);

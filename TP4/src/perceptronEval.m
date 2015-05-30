@@ -20,6 +20,5 @@ function [layers, resp] = perceptronEval(in, p, beta, func)
           resp(i, :) = funcPosta(layers(i, :), beta);
         end
         nextLayer = [-1 resp(i, :)];
-        
     end
 end
