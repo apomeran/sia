@@ -72,15 +72,10 @@ function trainedPerceptron = perceptronTrainer(inMtx, outMtx, p, beta, learningF
       %disp(diff)
       %fflush(stdout);
       %disp(p)
-      counterPatternSkipped = 0;
       if (diff > epsilon)
         for (i = evaluationPatternOrder')
           out = outMtx(i, 1);
-	  if(abs(out-r(i)) > 0.000)
           	[p differentials(:, :, :, i)] = perceptronLearner(inMtx(i, :), outMtx(i, :), p, beta, learningFactor, func, derivatedFunc, 				alpha, differentials(:, :, :, i));
-	  
-          else
-             counterPatternSkipped++;
           end
         end
       else

@@ -55,7 +55,7 @@ function [out maxFitnessVector meanFitnessVector] = genetics(N, layerSizes, inMt
             out = generation(:, :, :, position);
             break;
         end
-	printf("Min= %d\t Mean= %d\t Max %f\t \n", min(totalFitness), mean(totalFitness), maxFitnessGeneration);
+	printf("Min= %f\t Mean= %f\t Max %f\t \n", min(totalFitness), mean(totalFitness), maxFitnessGeneration);
         fflush(stdout);
 
         % Replace the generation for the next one

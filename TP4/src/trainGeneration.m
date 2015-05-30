@@ -5,7 +5,7 @@ function out = trainGeneration(generation, inMtx, outMtx, times)
 
     % 'Best' values for TP2
 
-    beta = 1;
+    beta = 2;
     learningFactor = 0.01;
     alpha = 0.3;
     epsilon = 0.0001;
