@@ -1,10 +1,10 @@
-function [out maxFitnessVector meanFitnessVector] = genetics(N, layerSizes, inMtx, outMtx, fitnessFunc, selectionFunc, selectionNumber, mixSelectionNumber, crossoverFunc, crossoverProbability, mutationFunc, mutationProbability, replacementSelectionFunc, replacementMethod, maxGenerations, targetFitness, trainingSeasons, structurePercentage, unmutableGenerations)
+function [out maxFitnessVector meanFitnessVector] = genetics(generation, inMtx, outMtx, fitnessFunc, selectionFunc, selectionNumber, mixSelectionNumber, crossoverFunc, crossoverProbability, mutationFunc, mutationProbability, replacementSelectionFunc, replacementMethod, maxGenerations, targetFitness, trainingSeasons, structurePercentage, unmutableGenerations)
 
     % Create the first generation
-    generation = newGeneration(N, layerSizes);
+    %generation = newGeneration(N, layerSizes);
     %if (trainingSeasons > 0)
     %train to not start with random values
-     trainGeneration(generation, inMtx, outMtx, 500);
+    %trainGeneration(generation, inMtx, outMtx, 500);
     %end
 
     if (maxGenerations == 0)
@@ -13,7 +13,7 @@ function [out maxFitnessVector meanFitnessVector] = genetics(N, layerSizes, inMt
 
     maxFitnessVector = [];
     meanFitnessVector = [];
-
+    N = length(generation(1,1,1,:));
     genNumber = 0;
     temperature = 1e+5;
     previousFitness = zeros(1, N);

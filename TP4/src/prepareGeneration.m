@@ -1,10 +1,6 @@
-function out = tp4(generation, sampleFunctionIndex, fitnessFunc, selectionFunc, selectionNumber, mixSelectionNumber, crossoverFunc,    
-  crossoverProbability,mutationFunc, mutationProbability, replacementSelectionFunc, replacementMethod, maxGenerations, targetFitness, 
-  trainingSeasons, structurePercentage, unmutableGenerations)
+function out = prepareGeneration(N, layerSizes, initialSeasons, sampleFunctionIndex)
 
-  tic
 
-   
   x1 = [0 : 0.1 : 4];
   y1 = sin(10*x1) .* e.^(-1*x1);
 
@@ -53,9 +49,16 @@ function out = tp4(generation, sampleFunctionIndex, fitnessFunc, selectionFunc, 
   testInMtx = learnInMtx;
   testOutMtx = learnOutMtx;
 
-  [out maxFitnessVector meanFitnessVector] = genetics(generation, learnInMtx, learnOutMtx, fitnessFunc, selectionFunc, selectionNumber,   
-  mixSelectionNumber, crossoverFunc, crossoverProbability,mutationFunc, mutationProbability, replacementSelectionFunc, replacementMethod,   
-  maxGenerations, targetFitness, trainingSeasons, structurePercentage, unmutableGenerations)
 
-  toc
+
+
+    % Create the first generation
+    generation = newGeneration(N, layerSizes);
+    %if (trainingSeasons > 0)
+    %train to not start with random values
+    trainGeneration(generation, learnInMtx, learnOutMtx, initialSeasons);
+    %end	
+    out = generation;
+
 end
+ 

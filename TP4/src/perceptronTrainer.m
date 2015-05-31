@@ -1,4 +1,4 @@
-function trainedPerceptron = perceptronTrainer(inMtx, outMtx, p, beta, learningFactor, alpha, epsilon, funcIndex, iterationCount, ab, cons, arbitrary, testIn, testOut)
+function [trainedPerceptron lastDiff] = perceptronTrainer(inMtx, outMtx, p, beta, learningFactor, alpha, epsilon, funcIndex, iterationCount, ab, cons, arbitrary, testIn, testOut)
     format long;
     activationFunctions{1, 1} = @sigmoid;
     activationFunctions{1, 2} = @sigmoidDerivated;
@@ -94,13 +94,14 @@ function trainedPerceptron = perceptronTrainer(inMtx, outMtx, p, beta, learningF
       oldPerceptron = p;
       %show the ECM
       %comment to improve performance
-      printf("K= %d\t ECM %f\t Etha %f \n",k, diff,learningFactor);
       
       arraydiff(k+1) = diff;
-      stats(p, inMtx, outMtx, testIn, testOut, beta, func, arraydiff);
-      disp(diff)
-      fflush(stdout);
-      counterPatternSkipped = 0;
+      if(mod(k,20) ==0)  
+      	printf("K= %d\t ECM %f\t Etha %f \n",k, diff,learningFactor);
+      	stats(p, inMtx, outMtx, testIn, testOut, beta, func, arraydiff);
+      	disp(diff)
+      	fflush(stdout);
+      end
       if (diff > epsilon)
         for (i = evaluationPatternOrder')
           out = outMtx(i, 1);
@@ -112,8 +113,9 @@ function trainedPerceptron = perceptronTrainer(inMtx, outMtx, p, beta, learningF
       k++;
     end
 
-    k
+    %k
 
     trainedPerceptron = p;
+    lastDiff = diff;
 
 end

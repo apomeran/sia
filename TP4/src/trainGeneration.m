@@ -18,7 +18,11 @@ function out = trainGeneration(generation, inMtx, outMtx, times,testIn, testOut)
     arbitrary = 0;
 	
     for i = 1:generationLength
-        out(:, :, :, i) = perceptronTrainer(inMtx, outMtx, out(:, :, :, i), beta, learningFactor, alpha, epsilon, funcIndex, iterationCount, abValues, consistency,arbitrary, inMtx, outMtx);
+         do
+         [p lastDiff] = perceptronTrainer(inMtx, outMtx, out(:, :, :, i), beta, learningFactor, alpha, epsilon, funcIndex, iterationCount, abValues, consistency,arbitrary, inMtx, outMtx);
+	 
+         until (lastDiff < 0.8)
+         out(:, :, :, i) = p;
     end
      out;
 end
