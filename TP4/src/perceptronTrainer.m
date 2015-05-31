@@ -105,8 +105,6 @@ function trainedPerceptron = perceptronTrainer(inMtx, outMtx, p, beta, learningF
         for (i = evaluationPatternOrder')
           out = outMtx(i, 1);
           	[p differentials(:, :, :, i)] = perceptronLearner(inMtx(i, :), outMtx(i, :), p, beta, learningFactor, func, derivatedFunc, 				alpha, differentials(:, :, :, i));
-	  
-          end
         end
       else
         break;

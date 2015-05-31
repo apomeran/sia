@@ -2,10 +2,10 @@ function [out maxFitnessVector meanFitnessVector] = genetics(N, layerSizes, inMt
 
     % Create the first generation
     generation = newGeneration(N, layerSizes);
-    if (trainingSeasons > 0)
-	%train to not start with random values
-        trainGeneration(generation, inMtx, outMtx, trainingSeasons);
-    end
+    %if (trainingSeasons > 0)
+    %train to not start with random values
+     trainGeneration(generation, inMtx, outMtx, 500);
+    %end
 
     if (maxGenerations == 0)
         maxGenerations = Inf;
@@ -70,7 +70,6 @@ function [out maxFitnessVector meanFitnessVector] = genetics(N, layerSizes, inMt
     [totalFitness relativeFitness] = calculatePopulationFitness(fitnessFunc, generation, inMtx, outMtx);
     [maxFitnessGeneration, position] = max(totalFitness);
     out = generation(:, :, :, position);
-
     plot(1:length(maxFitnessVector), maxFitnessVector, 1:length(meanFitnessVector), meanFitnessVector);
     % axis -> [x_low x_high y_low y_high]
     axis([1 maxGenerations 0 5000000]);
