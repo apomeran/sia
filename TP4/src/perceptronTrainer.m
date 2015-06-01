@@ -96,7 +96,7 @@ function [trainedPerceptron lastDiff] = perceptronTrainer(inMtx, outMtx, p, beta
       %comment to improve performance
       
       arraydiff(k+1) = diff;
-      if(mod(k,20) ==0)  
+      if(k != 0 && mod(k,30) == 0)  
       	printf("K= %d\t ECM %f\t Etha %f \n",k, diff,learningFactor);
       	stats(p, inMtx, outMtx, testIn, testOut, beta, func, arraydiff);
       	disp(diff)

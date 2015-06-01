@@ -25,7 +25,7 @@ function out = trainGeneration(generation, inMtx, outMtx, times, isInitial)
     for i = 1:generationLength
          do
          [p lastDiff] = perceptronTrainer(inMtx, outMtx, out(:, :, :, i), beta, learningFactor, alpha, epsilon, funcIndex, iterationCount, abValues, consistency,arbitrary, inMtx, outMtx);
-         until (lastDiff < 1)
+         until (lastDiff < 0.5)
          out(:, :, :, i) = p;
          1/(lastDiff^2) %FITNESS FOR THIS GENERATION
     end
