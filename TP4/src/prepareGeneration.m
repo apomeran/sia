@@ -26,37 +26,34 @@ function out = prepareGeneration(N, layerSizes, initialSeasons, sampleFunctionIn
   sampleFunc{1,2} = y1;
   sampleFunc{2,1} = x2;
   sampleFunc{2,2} = y2;
-  sampleFunc{3,1} = x3;
-  sampleFunc{3,2} = y3;
-  sampleFunc{4,1} = x4;
-  sampleFunc{4,2} = y4;
-  sampleFunc{5,1} = x5;
-  sampleFunc{5,2} = y5;
-  sampleFunc{5,1} = x5;
-  sampleFunc{5,2} = y5;
-  sampleFunc{9,1} = x9; 
-  sampleFunc{9,2} = y9; 
-  sampleFunc{11,1} = x11; 
-  sampleFunc{11,2} = y11; 
+    sampleFunc{3,1} = x3;
+    sampleFunc{3,2} = y3;
+    sampleFunc{4,1} = x4;
+    sampleFunc{4,2} = y4;
+    sampleFunc{5,1} = x5;
+    sampleFunc{5,2} = y5;
+    sampleFunc{5,1} = x5;
+    sampleFunc{5,2} = y5;
+    sampleFunc{9,1} = x9; 
+    sampleFunc{9,2} = y9; 
+    sampleFunc{11,1} = x11; 
+    sampleFunc{11,2} = y11; 
   
-  x = sampleFunc{sampleFunctionIndex,1};
-  y = sampleFunc{sampleFunctionIndex,2}; 
+    x = sampleFunc{sampleFunctionIndex,1};
+    y = sampleFunc{sampleFunctionIndex,2}; 
 
-  x = ((x - mean(x)) / std(x));
-  %y = ((y - mean(y)) / std(y));
-  learnInMtx = x';
-  learnOutMtx = y';
-  testInMtx = learnInMtx;
-  testOutMtx = learnOutMtx;
-
-
-
+    x = ((x - mean(x)) / std(x));
+    %y = ((y - mean(y)) / std(y));
+    learnInMtx = x';
+    learnOutMtx = y';
+    testInMtx = learnInMtx;
+    testOutMtx = learnOutMtx;
 
     % Create the first generation
     generation = newGeneration(N, layerSizes);
     %if (trainingSeasons > 0)
     %train to not start with random values
-    trainGeneration(generation, learnInMtx, learnOutMtx, initialSeasons);
+    generation = trainGeneration(generation, learnInMtx, learnOutMtx, initialSeasons, 1);
     %end	
     out = generation;
 

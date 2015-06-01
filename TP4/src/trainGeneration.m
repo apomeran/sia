@@ -1,4 +1,4 @@
-function out = trainGeneration(generation, inMtx, outMtx, times,testIn, testOut)
+function out = trainGeneration(generation, inMtx, outMtx, times, isInitial)
     %this value is N
     generationLength = length(generation(1, 1, 1, :));
     out = generation;
@@ -8,7 +8,12 @@ function out = trainGeneration(generation, inMtx, outMtx, times,testIn, testOut)
  
     %5,[1 35 25 1] , 1, 0.25, 0.9, 0.000001,1,50000,[0.01 0.01], 5, 0
     beta = 1;
-    learningFactor = 0.25;
+    
+    if (isInitial == 1)
+     learningFactor = 0.25;
+    else
+     learningFactor = 0.02;
+    end
     alpha = 0.9;
     epsilon = 0.000001;
     funcIndex = 1;
@@ -20,9 +25,8 @@ function out = trainGeneration(generation, inMtx, outMtx, times,testIn, testOut)
     for i = 1:generationLength
          do
          [p lastDiff] = perceptronTrainer(inMtx, outMtx, out(:, :, :, i), beta, learningFactor, alpha, epsilon, funcIndex, iterationCount, abValues, consistency,arbitrary, inMtx, outMtx);
-	 
-         until (lastDiff < 0.8)
+         until (lastDiff < 1)
          out(:, :, :, i) = p;
+         1/(lastDiff^2) %FITNESS FOR THIS GENERATION
     end
-     out;
 end

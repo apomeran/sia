@@ -31,7 +31,7 @@ function gen = replacement3(generation, inMtx, outMtx, totalFitness, relativeFit
     end
 
     if (trainingSeasons > 0)
-        aux = trainGeneration(aux, inMtx, outMtx, trainingSeasons);
+        aux = trainGeneration(aux, inMtx, outMtx, trainingSeasons, 0);
     end
 
     totalAux(:, :, :, 1:generationLength-1) = generation;

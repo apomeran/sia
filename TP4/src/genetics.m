@@ -10,7 +10,6 @@ function [out maxFitnessVector meanFitnessVector] = genetics(generation, inMtx, 
     if (maxGenerations == 0)
         maxGenerations = Inf;
     end
-
     maxFitnessVector = [];
     meanFitnessVector = [];
     N = length(generation(1,1,1,:));
@@ -22,7 +21,7 @@ function [out maxFitnessVector meanFitnessVector] = genetics(generation, inMtx, 
     while (genNumber < maxGenerations)
         %calculate Total Fitness and Relative Fitness for all population
         [totalFitness relativeFitness] = calculatePopulationFitness(fitnessFunc, generation, inMtx, outMtx);
-
+          
 	%Get the maximum fitness from all population and its position
         [maxFitnessGeneration, position] = max(totalFitness);
 

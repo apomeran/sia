@@ -4,7 +4,7 @@ function out = tp4(generation, sampleFunctionIndex, fitnessFunc, selectionFunc, 
 
   tic
 
-   
+	   
   x1 = [0 : 0.1 : 4];
   y1 = sin(10*x1) .* e.^(-1*x1);
 

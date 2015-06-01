@@ -24,7 +24,7 @@ function gen = replacement2(generation, inMtx, outMtx, totalFitness, relativeFit
     end
 
     if (trainingSeasons > 0)
-        gen(:, :, :, 1:selectionNumber) = trainGeneration(gen(:, :, :, 1:selectionNumber), inMtx, outMtx, trainingSeasons);
+        gen(:, :, :, 1:selectionNumber) = trainGeneration(gen(:, :, :, 1:selectionNumber), inMtx, outMtx, trainingSeasons,0);
     end
 
     remaining = generationLength - selectionNumber - 1;

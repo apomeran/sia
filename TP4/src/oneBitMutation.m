@@ -1,7 +1,7 @@
 function out = oneBitMutation(individual, mutationProbability)
+    epsilon = 0.0001;
     out = individual;
     if (rand < mutationProbability)
-        epsilon = 0.0001;
 
         rows = length(individual(:, 1, 1));
         cols = length(individual(1, :, 1));

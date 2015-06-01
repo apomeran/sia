@@ -2,7 +2,6 @@ function gen = replacement1(generation, inMtx, outMtx, totalFitness, relativeFit
 
     % For this method, select 2 parents and combine until N children are generated.
     selectionNumber = 2;
-
     generationLength = length(generation(1, 1, 1, :)) + 1;
 
     gen = generation;
@@ -26,7 +25,7 @@ function gen = replacement1(generation, inMtx, outMtx, totalFitness, relativeFit
         end
     end
     if (trainingSeasons > 0)
-        trainGeneration(gen, inMtx, outMtx, trainingSeasons);
+       gen = trainGeneration(gen, inMtx, outMtx, trainingSeasons,0);
     end
 
 end
