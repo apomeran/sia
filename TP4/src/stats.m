@@ -49,7 +49,6 @@ function out = stats(perceptron, learnInMtx, learnOutMtx, testInMtx, testOutMtx,
   
  % plot both functions, original and calculated one.
  %subplot(2,1,1);  
- printf("Function has been plotted \n");
  plot(trueValuesX, trueValuesY, '-', "markersize", 2, trueValuesTestX, calculatedTestValuesY, '-', "markersize",4);
  %subplot(2,1,2);
  %plot(diffe);

@@ -1,4 +1,4 @@
-function out = mixEliteRouletteSelection(generation, totalFitness, relativeFitness, k, n1, temperature)
+function out = mixEliteUniversalSelection(generation, totalFitness, relativeFitness, k, n1, temperature)
     % Create the out vector, then replace its content.
     out = generation(:, :, :, 1:k);
 
