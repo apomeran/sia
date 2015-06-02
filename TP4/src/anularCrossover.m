@@ -18,7 +18,6 @@ function [s1 s2] = anularCrossover(p1, p2)
     s2(index) = serializedP1(index);
   end
 
-
   s1 = deserializePerceptron(s1, r, c, l);
   s2 = deserializePerceptron(s2, r, c, l);
 end
