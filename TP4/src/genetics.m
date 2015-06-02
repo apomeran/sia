@@ -19,6 +19,7 @@ function [out maxFitnessVector meanFitnessVector] = genetics(generation, inMtx, 
     unmuted = 0;
     maxFitness = 0;
     while (genNumber < maxGenerations)
+        tic
         %calculate Total Fitness and Relative Fitness for all population
         [totalFitness relativeFitness] = calculatePopulationFitness(fitnessFunc, generation, inMtx, outMtx);
           
@@ -54,7 +55,7 @@ function [out maxFitnessVector meanFitnessVector] = genetics(generation, inMtx, 
             out = generation(:, :, :, position);
             break;
         end
-	printf("Min= %f\t Mean= %f\t Max %f\t \n", min(totalFitness), mean(totalFitness), maxFitnessGeneration);
+	printf("Generation: %d \t Min= %f \t Mean= %f \t Max %f \t \n", genNumber, min(totalFitness), mean(totalFitness), maxFitnessGeneration);
         stats(generation(:, :, :, position), inMtx, outMtx, inMtx, outMtx, 1, @sigmoid, 0);
         fflush(stdout);
 
@@ -65,6 +66,7 @@ function [out maxFitnessVector meanFitnessVector] = genetics(generation, inMtx, 
           temperature = temperature * 0.95;
         end
         genNumber++;
+        toc
     end
 
     [totalFitness relativeFitness] = calculatePopulationFitness(fitnessFunc, generation, inMtx, outMtx);

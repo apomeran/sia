@@ -27,7 +27,7 @@ function out = trainGeneration(generation, inMtx, outMtx, times, isInitial)
 	 if (isInitial == 1)
          	do
          [p lastDiff] = perceptronTrainer(inMtx, outMtx, out(:, :, :, i), beta, learningFactor, alpha, epsilon, funcIndex, iterationCount, abValues, consistency,arbitrary, inMtx, outMtx, isInitial);
-         	until (lastDiff < 0.1)
+         	until (lastDiff < 0.4)
          printf("%d out of %d , ECM = %f \n", i, generationLength, lastDiff);
          else
            [p lastDiff] = perceptronTrainer(inMtx, outMtx, out(:, :, :, i), beta, learningFactor, alpha, epsilon, funcIndex, iterationCount, abValues, consistency,arbitrary, inMtx, outMtx, isInitial);

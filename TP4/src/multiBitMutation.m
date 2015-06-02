@@ -12,7 +12,7 @@ function out = multiBitMutation(individual, mutationProbability)
             for layer = 1:layers
                 if (out(row, col, layer) != 0)
                     if (mutationMatrix(row, col, layer) < mutationProbability)
-                        out(row, col, layer) = rand - 0.5;
+                        out(row, col, layer) += (rand - 0.5) / 10;
                     end
                 end
             end
