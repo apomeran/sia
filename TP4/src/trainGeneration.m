@@ -2,7 +2,6 @@ function out = trainGeneration(generation, inMtx, outMtx, times, isInitial)
     %this value is N
     generationLength = length(generation(1, 1, 1, :));
     out = generation;
-
     % 'Best' values for TP2
 
  
@@ -11,22 +10,29 @@ function out = trainGeneration(generation, inMtx, outMtx, times, isInitial)
     
     if (isInitial == 1)
      learningFactor = 0.25;
+     abValues = [0.01 0.01];
     else
-     learningFactor = 0.02;
+     learningFactor = 0.01;
+     abValues = 0;
     end
     alpha = 0.9;
     epsilon = 0.000001;
     funcIndex = 1;
     iterationCount = times;
-    abValues = [0.01 0.01];
     consistency = 5;
     arbitrary = 0;
 	
     for i = 1:generationLength
-         do
-         [p lastDiff] = perceptronTrainer(inMtx, outMtx, out(:, :, :, i), beta, learningFactor, alpha, epsilon, funcIndex, iterationCount, abValues, consistency,arbitrary, inMtx, outMtx);
-         until (lastDiff < 0.5)
+
+	 if (isInitial == 1)
+         	do
+         [p lastDiff] = perceptronTrainer(inMtx, outMtx, out(:, :, :, i), beta, learningFactor, alpha, epsilon, funcIndex, iterationCount, abValues, consistency,arbitrary, inMtx, outMtx, isInitial);
+         	until (lastDiff < 0.1)
+         printf("%d out of %d , ECM = %f \n", i, generationLength, lastDiff);
+         else
+           [p lastDiff] = perceptronTrainer(inMtx, outMtx, out(:, :, :, i), beta, learningFactor, alpha, epsilon, funcIndex, iterationCount, abValues, consistency,arbitrary, inMtx, outMtx, isInitial);
+         end
          out(:, :, :, i) = p;
-         1/(lastDiff^2) %FITNESS FOR THIS GENERATION
+         %1/(lastDiff^2) %FITNESS FOR THIS GENERATION
     end
 end

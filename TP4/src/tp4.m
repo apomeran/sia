@@ -3,8 +3,6 @@ function out = tp4(generation, sampleFunctionIndex, fitnessFunc, selectionFunc, 
   trainingSeasons, structurePercentage, unmutableGenerations)
 
   tic
-
-	   
   x1 = [0 : 0.1 : 4];
   y1 = sin(10*x1) .* e.^(-1*x1);
 
@@ -55,7 +53,7 @@ function out = tp4(generation, sampleFunctionIndex, fitnessFunc, selectionFunc, 
 
   [out maxFitnessVector meanFitnessVector] = genetics(generation, learnInMtx, learnOutMtx, fitnessFunc, selectionFunc, selectionNumber,   
   mixSelectionNumber, crossoverFunc, crossoverProbability,mutationFunc, mutationProbability, replacementSelectionFunc, replacementMethod,   
-  maxGenerations, targetFitness, trainingSeasons, structurePercentage, unmutableGenerations)
+  maxGenerations, targetFitness, trainingSeasons, structurePercentage, unmutableGenerations);
 
   toc
 end

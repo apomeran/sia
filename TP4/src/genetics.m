@@ -55,6 +55,7 @@ function [out maxFitnessVector meanFitnessVector] = genetics(generation, inMtx, 
             break;
         end
 	printf("Min= %f\t Mean= %f\t Max %f\t \n", min(totalFitness), mean(totalFitness), maxFitnessGeneration);
+        stats(generation(:, :, :, position), inMtx, outMtx, inMtx, outMtx, 1, @sigmoid, 0);
         fflush(stdout);
 
         % Replace the generation for the next one
@@ -68,13 +69,13 @@ function [out maxFitnessVector meanFitnessVector] = genetics(generation, inMtx, 
 
     [totalFitness relativeFitness] = calculatePopulationFitness(fitnessFunc, generation, inMtx, outMtx);
     [maxFitnessGeneration, position] = max(totalFitness);
-    out = generation(:, :, :, position);
     plot(1:length(maxFitnessVector), maxFitnessVector, 1:length(meanFitnessVector), meanFitnessVector);
     % axis -> [x_low x_high y_low y_high]
-    axis([1 maxGenerations 0 5000000]);
+    axis([1 maxGenerations 0 200000]);
     xlabel("Generation");
     ylabel("Fitness");
     title("Fitness across generations");
     legend("     Max fitness ", "      Mean fitness ");
     legend('boxon');
+    out = generation(:, :, :, position);
 end

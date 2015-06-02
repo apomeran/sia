@@ -1,4 +1,4 @@
-function [trainedPerceptron lastDiff] = perceptronTrainer(inMtx, outMtx, p, beta, learningFactor, alpha, epsilon, funcIndex, iterationCount, ab, cons, arbitrary, testIn, testOut)
+function [trainedPerceptron lastDiff] = perceptronTrainer(inMtx, outMtx, p, beta, learningFactor, alpha, epsilon, funcIndex, iterationCount, ab, cons, arbitrary, testIn, testOut, isInitial)
     format long;
     activationFunctions{1, 1} = @sigmoid;
     activationFunctions{1, 2} = @sigmoidDerivated;
@@ -21,6 +21,9 @@ function [trainedPerceptron lastDiff] = perceptronTrainer(inMtx, outMtx, p, beta
     storedAlpha = alpha;
     consistentStepsCount = 0;
     kickthreshhold = 0.05;
+
+
+        
     
     while (k < iterationCount)
       r = [];
@@ -37,6 +40,11 @@ function [trainedPerceptron lastDiff] = perceptronTrainer(inMtx, outMtx, p, beta
 	r(i) = result(numberOfLayers+1, 1);
         diff += abs(abs(result(length(result(:, 1)), 1) - outMtx(i)).^2/length(inMtx));
       end
+     
+      if ( (k==50 && diff > 5) ||(k == 500 && diff > 0.3))
+          break;
+      end 
+	
       % Adaptative ETHA
 
       if (ab != 0)
@@ -64,7 +72,7 @@ function [trainedPerceptron lastDiff] = perceptronTrainer(inMtx, outMtx, p, beta
       end
       
       %give it a kick! (in case it is a local minima)
-      if (learningFactor < kickthreshhold)
+      if (isInitial == 1 && learningFactor < kickthreshhold)
         if (k < 100000)
           learningFactor = 0.0001;
           kickthreshhold = 0.00001;
@@ -89,19 +97,13 @@ function [trainedPerceptron lastDiff] = perceptronTrainer(inMtx, outMtx, p, beta
           learningFactor = 0.1;
           kickthreshhold = 0.05;
         end 
-       end
+      end
 
       oldPerceptron = p;
       %show the ECM
       %comment to improve performance
       
       arraydiff(k+1) = diff;
-      if(k != 0 && mod(k,30) == 0)  
-      	printf("K= %d\t ECM %f\t Etha %f \n",k, diff,learningFactor);
-      	stats(p, inMtx, outMtx, testIn, testOut, beta, func, arraydiff);
-      	disp(diff)
-      	fflush(stdout);
-      end
       if (diff > epsilon)
         for (i = evaluationPatternOrder')
           out = outMtx(i, 1);
@@ -110,6 +112,14 @@ function [trainedPerceptron lastDiff] = perceptronTrainer(inMtx, outMtx, p, beta
       else
         break;
       end
+  
+     if(k != 0 && mod(k,200) == 0)  
+      	printf("K= %d\t ECM %f\t Etha %f \n",k, diff,learningFactor);
+      	stats(p, inMtx, outMtx, testIn, testOut, beta, func, arraydiff);
+      	disp(diff)
+      	fflush(stdout);
+      end
+ 
       k++;
     end
 
