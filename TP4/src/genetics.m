@@ -71,7 +71,7 @@ function [out maxFitnessVector meanFitnessVector] = genetics(generation, inMtx, 
     [maxFitnessGeneration, position] = max(totalFitness);
     plot(1:length(maxFitnessVector), maxFitnessVector, 1:length(meanFitnessVector), meanFitnessVector);
     % axis -> [x_low x_high y_low y_high]
-    axis([1 maxGenerations 0 200000]);
+    axis([1 maxGenerations 0 uint16(maxFitness)]);
     xlabel("Generation");
     ylabel("Fitness");
     title("Fitness across generations");
