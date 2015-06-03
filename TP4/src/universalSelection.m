@@ -1,4 +1,4 @@
-function out = eliteSelection(generation, totalFitness, relativeFitness, k, n1, temperature)
+function out = universalSelection(generation, totalFitness, relativeFitness, k, n1, temperature)
     %Generate the vector of accumulated fitness.
     acumFitness = cumsum(relativeFitness);
     r = rand;
