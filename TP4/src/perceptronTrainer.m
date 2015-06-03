@@ -72,7 +72,7 @@ function [trainedPerceptron lastDiff] = perceptronTrainer(inMtx, outMtx, p, beta
       end
       
       %give it a kick! (in case it is a local minima)
-      if (isInitial == 1 && learningFactor < kickthreshhold)
+      if (false && isInitial == 1 && learningFactor < kickthreshhold)
         if (k < 100000)
           learningFactor = 0.0001;
           kickthreshhold = 0.00001;

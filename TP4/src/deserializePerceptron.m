@@ -1,10 +1,10 @@
-function out = deserializePerceptron(p, r, c, l)
-    out = zeros(r, c, l);
+function out = deserializePerceptron(p, row, col, layer)
+    out = zeros(row, col, layer);
 
-    for i = 1:l
-        for j = 1:r
-            start = (j-1)*c + (i-1)*c*r + 1;
-            ending = (j*c) + (i-1)*r*c;
+    for i = 1:layer
+        for j = 1:row
+            start = (j-1)*col + (i-1)*col*row + 1;
+            ending = (j*col) + (i-1)*row*col;
             out(j, :, i) = p(start:ending);
         end
     end

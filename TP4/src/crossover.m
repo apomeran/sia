@@ -1,8 +1,8 @@
-function [child1 child2] = crossover(p1, p2, crossoverFunc, crossoverProbability)
-    % TODO: See what happens if there is no crossover
-    child1 = p1;
-    child2 = p2;
+function [child1 child2] = crossover(Perceptron1, Perceptron2, crossoverFunc, crossoverProbability)
+    child1 = Perceptron1;
+    child2 = Perceptron2;
+    %wrapper
     if (rand < crossoverProbability)
-        [child1 child2] = crossoverFunc(p1, p2);
+        [child1 child2] = crossoverFunc(Perceptron1, Perceptron2);
     end
 end
