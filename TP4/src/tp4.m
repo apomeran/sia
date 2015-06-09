@@ -12,7 +12,7 @@ function out = tp4(generation, sampleFunctionIndex, fitnessFunc, selectionFunc, 
   x3 = [-10:0.1:10]; 
   y3 = 5 * sin(x3).^2 + cos(x3);
  	
-  x4 = [-2*pi : 0.1 : 2*pi];
+  x4 = [-2*pi : 0.2 : 2*pi];
   y4 = 1./(cos(x4) + 2);
 
   x5 = [-4 : 0.2 : 4];

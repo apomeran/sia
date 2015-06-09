@@ -25,7 +25,6 @@ function [out maxFitnessVector meanFitnessVector] = genetics(generation, inMtx, 
           
 	%Get the maximum fitness from all population and its position
         [maxFitnessGeneration, position] = max(totalFitness);
-
 	%check how many individual fitnesses hasnt changed along one iteration
         unmutedFitnesses = 0;
         for i = 1:N
@@ -58,6 +57,20 @@ function [out maxFitnessVector meanFitnessVector] = genetics(generation, inMtx, 
 	printf("Generation: %d \t Min= %f \t Mean= %f \t Max %f \t \n", genNumber, min(totalFitness), mean(totalFitness), maxFitnessGeneration);
         stats(generation(:, :, :, position), inMtx, outMtx, inMtx, outMtx, 1, @sigmoid, 0);
         fflush(stdout);
+
+
+        if(genNumber > 2)
+	subplot(2,1,2);  
+	plot(1:length(maxFitnessVector), maxFitnessVector, 1:length(meanFitnessVector), meanFitnessVector);
+        % axis -> [x_low x_high y_low y_high]
+        axis([1 genNumber+5 0 uint32(maxFitness)]);
+        xlabel("Generation");
+        ylabel("Fitness");
+        title("Fitness across generations");
+        legend("     Max fitness ", "      Mean fitness ", "location", 'southeast');
+        legend('boxon');
+        end
+
 
         % Replace the generation for the next one
         generation = replacementMethod(generation, inMtx, outMtx, totalFitness, relativeFitness, fitnessFunc, selectionFunc, selectionNumber, mixSelectionNumber, crossoverFunc, crossoverProbability, mutationFunc, mutationProbability, replacementSelectionFunc, trainingSeasons, temperature);

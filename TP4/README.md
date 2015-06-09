@@ -4,11 +4,14 @@ QUICK LAUNCH:
 
 1) Create a generation: 
 
-$> generation = newGeneration(20, [1 35 25 1]);
+$> generation = newGeneration(10, [1 35 25 1]);
 
 2) Call genetics with that generation and for our function (No 4): 
 
-$> tp4(generation, 4, @quadraticECMFitness, @eliteSelection, 10, 30, @uniformCrossover, 0.4, @multiBitMutation, 0.15, @eliteSelection, @replacement2, 1000, 1e50, 3,0,0); 
+$> tp4(generation, 4, @quadraticECMFitness, @eliteSelection, 10, 30, @uniformCrossover, 0.4, @multiBitMutation, 0.15, @eliteSelection, @replacement2, 1000, 1e50, 3,0,0);
+
+It will plot the approximation given the maxFitness perceptron-individual. 
+And in the end it will plot the fitness accross all generations 
 
 =======================================================================
 
