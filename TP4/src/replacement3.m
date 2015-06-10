@@ -39,6 +39,6 @@ function gen = replacement3(generation, inMtx, outMtx, totalFitness, relativeFit
 
     [totalFitness relativeFitness] = calculatePopulationFitness(fitnessFunc, totalAux, inMtx, outMtx);
 
-    gen = selection(totalAux, generationLength, totalFitness, relativeFitness, replacementSelectionFunc, mixSelectionNumber, temperature);
+    gen = selection(totalAux, generationLength-1, totalFitness, relativeFitness, replacementSelectionFunc, mixSelectionNumber, temperature);
 
 end
