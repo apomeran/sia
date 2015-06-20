@@ -21,16 +21,13 @@ function trainedPerceptron = perceptronTrainer(inMtx, outMtx, p, beta, learningF
     storedAlpha = alpha;
     consistentStepsCount = 0;
     kickthreshhold = 0.05;
-    
+
     while (k < iterationCount)
       r = [];
       diff = 0;
 
-      %We sort the patterns in every iteration
-      [randoms evaluationPatternOrder] = sort(rand(length(inMtx), 1));
-      
       numberOfLayers = length(p(1, 1, :));
-        
+
      %evaluationPatternOrder = [length(inMtx):-1:1]';
       for (i = 1:length(inMtx))
         [layers, result] = perceptronEval(inMtx(i, :), p, beta, func);
@@ -56,13 +53,13 @@ function trainedPerceptron = perceptronTrainer(inMtx, outMtx, p, beta, learningF
           else
 	   learningFactor = learningFactor - learningFactor * ab(2);
           end
-	  %we set alpha to zero, to prevent goin in the wrong way	
+	  %we set alpha to zero, to prevent goin in the wrong way
 	  alpha = 0;
           p = oldPerceptron;
           consistentStepsCount = 0;
         end
       end
-      
+
       %give it a kick! (in case it is a local minima)
       if (learningFactor < kickthreshhold)
         if (k < 100000)
@@ -84,18 +81,20 @@ function trainedPerceptron = perceptronTrainer(inMtx, outMtx, p, beta, learningF
         if (k < 2000)
           learningFactor = 0.05;
           kickthreshhold = 0.01;
-        end 
+        end
         if (k < 400)
           learningFactor = 0.1;
           kickthreshhold = 0.05;
-        end 
+        end
        end
 
       oldPerceptron = p;
       %show the ECM
       %comment to improve performance
       printf("K= %d\t ECM %f\t Etha %f \n",k, diff,learningFactor);
-      
+
+      [randoms evaluationPatternOrder] = sort(rand(length(inMtx), 1));
+
       arraydiff(k+1) = diff;
       stats(p, inMtx, outMtx, testIn, testOut, beta, func, arraydiff);
       disp(diff)
@@ -105,8 +104,7 @@ function trainedPerceptron = perceptronTrainer(inMtx, outMtx, p, beta, learningF
         for (i = evaluationPatternOrder')
           out = outMtx(i, 1);
           	[p differentials(:, :, :, i)] = perceptronLearner(inMtx(i, :), outMtx(i, :), p, beta, learningFactor, func, derivatedFunc, 				alpha, differentials(:, :, :, i));
-	  
-          end
+
         end
       else
         break;
