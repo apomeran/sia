@@ -20,9 +20,9 @@ function out = stats(perceptron, learnInMtx, learnOutMtx, testInMtx, testOutMtx,
     end
     trainedTotalError += calculatedError;
   end
-  trainedAvgError = trainedTotalError / length(learnInMtx)
-  maximumTrainingError
-  minimunTrainingError
+  %trainedAvgError = trainedTotalError / length(learnInMtx)
+  %maximumTrainingError
+  %minimunTrainingError
 
   for (i = 1:length(testInMtx))
     [layers, result] = perceptronEval(testInMtx(i, :), perceptron, beta, func);
@@ -38,9 +38,9 @@ function out = stats(perceptron, learnInMtx, learnOutMtx, testInMtx, testOutMtx,
     end
     generalizedTotalError += calculatedError;
   end
-  generalizedAvgError = generalizedTotalError / length(testInMtx)
-  maximumTestError
-  minimumTestError
+  %generalizedAvgError = generalizedTotalError / length(testInMtx)
+  %maximumTestError
+  %minimumTestError
 
   trueValuesX = testInMtx(:, 1);
   trueValuesY = testOutMtx(:, 1);
@@ -48,7 +48,7 @@ function out = stats(perceptron, learnInMtx, learnOutMtx, testInMtx, testOutMtx,
 
   
  % plot both functions, original and calculated one.
- %subplot(2,1,1);  
+ subplot(2,1,1);  
  plot(trueValuesX, trueValuesY, '-', "markersize", 2, trueValuesTestX, calculatedTestValuesY, '-', "markersize",4);
  %subplot(2,1,2);
  %plot(diffe);

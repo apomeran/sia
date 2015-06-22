@@ -13,7 +13,7 @@ function out = tp2(sampleFunctionIndex, layerSize, beta, learningFactor, alpha, 
 
 
 
-  x1 = [0 : 0.1 : 4];
+  x1 = [0 : 0.1 : 2];
   y1 = sin(10*x1) .* e.^(-1*x1);
 
   x2 = [-6.3 : 0.1 : 6.3];
@@ -53,8 +53,8 @@ function out = tp2(sampleFunctionIndex, layerSize, beta, learningFactor, alpha, 
   
   x = sampleFunc{sampleFunctionIndex,1};
   y = sampleFunc{sampleFunctionIndex,2}; 
-
-  x = ((x - mean(x)) / std(x));
+  %x = normalize_var(x,0,2);
+  %x = ((x - mean(x)) / std(x));
   %y = ((y - mean(y)) / std(y));
   learnInMtx = x';
   learnOutMtx = y';
@@ -71,4 +71,16 @@ function out = tp2(sampleFunctionIndex, layerSize, beta, learningFactor, alpha, 
   %final statistics 
   stats(trainedPerceptronValue, learnInMtx, learnOutMtx, testInMtx, testOutMtx, beta, func);
   toc
+end
+
+function normalized = normalize_var(array, x, y)
+
+     # Normalize to [0, 1]:
+     m = min(array);
+     range = max(array) - m;
+     array = (array - m) / range;
+
+     # Then scale to [x,y]:
+     range2 = y - x;
+     normalized = (array*range2) + x;
 end
