@@ -1,3 +1,3 @@
 function out = identityDerivated(x, beta)
-    out = beta;
+    out = 1;
 end

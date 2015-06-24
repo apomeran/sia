@@ -1,5 +1,7 @@
 function out = tp2(sampleFunctionIndex, layerSize, beta, learningFactor, alpha, epsilon, funcIndex, iterationCount, abValues, consistency, arbitrary)
   
+  global betas;
+  arbitrary = 0;
   tic
   %Index for functions
   func{1, 1} = @sigmoid;
@@ -12,9 +14,19 @@ function out = tp2(sampleFunctionIndex, layerSize, beta, learningFactor, alpha, 
   func = func{funcIndex, 1};
 
 
-
-  x1 = [0 : 0.05 : 4];
-  y1 = sin(10*x1) .* e.^(-1*x1);
+  x11 = [0 : 0.05 : 0.9];
+  x12 = [1 : 0.05 : 2];
+  x13 = [2.01 : 0.01 : 3];
+  x14 = [3.01 : 0.01 : 4];
+  
+  %84 points
+  %x11 = [0 : 0.15 : 0.9];
+  %x12 = [1 : 0.1 : 2];
+  %x13 = [2.01 : 0.08 : 3];
+  %x14 = [3.01 : 0.02 : 4];
+  x1 = [x11 x12 x13 x14];
+  %x1 = [0 : 0.01 : 4];
+  y1 = sin(10*x1) .* e.^(-0.74*x1);
 
   x2 = [-6.3 : 0.1 : 6.3];
   y2 = 13 * sin(x2) .* cos(x2).^2;
@@ -53,7 +65,8 @@ function out = tp2(sampleFunctionIndex, layerSize, beta, learningFactor, alpha, 
   
   x = sampleFunc{sampleFunctionIndex,1};
   y = sampleFunc{sampleFunctionIndex,2}; 
-  %x = normalize_var(x,0,2);
+  x = normalize_var(x,-4,4);
+  %y = normalize_var(y,-0.7,0.7);
   %x = ((x - mean(x)) / std(x));
   %y = ((y - mean(y)) / std(y));
   learnInMtx = x';

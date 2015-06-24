@@ -1,3 +1,3 @@
 function out = identity(x, beta)
-    out = beta*x;
+    out = x;
 end

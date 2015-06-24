@@ -22,8 +22,18 @@ function [trainedPerceptron lastDiff] = perceptronTrainer(inMtx, outMtx, p, beta
     consistentStepsCount = 0;
     kickthreshhold = 0.05;
 
-
-        
+    %beta adaptative definition
+    global betas;
+    betas = ones(numLayers+1, layerSize) .* beta;
+    
+    if (false)
+     minbeta = 1;
+     maxbeta = 2;
+     factor1 = [minbeta:((maxbeta-minbeta)/(layerSize-1)):maxbeta];
+     factor2 = 1;
+     betas(2,:) = ones(1,layerSize) .* 1;
+     betas(3,:) = ones(1,layerSize) .* 2;
+    end    
     
     while (k < iterationCount)
       r = [];
@@ -41,10 +51,6 @@ function [trainedPerceptron lastDiff] = perceptronTrainer(inMtx, outMtx, p, beta
         diff += abs(abs(result(length(result(:, 1)), 1) - outMtx(i)).^2/length(inMtx));
       end
      
-      if ( (k==50 && diff > 5) ||(k == 500 && diff > 0.3))
-	  %[trainedPerceptron lastDiff] = [0 0];
-          %break;
-      end 
 	
       % Adaptative ETHA
 
@@ -54,9 +60,9 @@ function [trainedPerceptron lastDiff] = perceptronTrainer(inMtx, outMtx, p, beta
           if (consistentStepsCount >= cons)
             
             learningFactor = learningFactor + ab(1);
-            if (diff > 100)
-	     learningFactor *= 1.5; 
-            end
+            %if (diff > 100)
+	     %learningFactor *= 1.5; 
+            %end
 	    %we are doing ok, so lets put alpha momentum again
             alpha = storedAlpha;
             lastDiff = diff;
@@ -75,9 +81,10 @@ function [trainedPerceptron lastDiff] = perceptronTrainer(inMtx, outMtx, p, beta
           consistentStepsCount = 0;
         end
       end
+
       
       %give it a kick! (in case it is a local minima)
-      if (false && learningFactor < kickthreshhold)
+      if (learningFactor < kickthreshhold)
         if (k < 100000)
           learningFactor = 0.0001;
           kickthreshhold = 0.00001;
@@ -87,39 +94,54 @@ function [trainedPerceptron lastDiff] = perceptronTrainer(inMtx, outMtx, p, beta
           kickthreshhold = 0.0001;
         end
         if (k < 20000)
-          learningFactor = 0.005;
+          learningFactor = 0.01;
           kickthreshhold = 0.005;
         end
-        if (k < 500)
-          learningFactor = 0.01;
-          kickthreshhold = 0.001;
+        if (k < 9000)
+          learningFactor = 0.03;
+          kickthreshhold = 0.005;
         end
-        if (k < 400)
+        if (k < 6500)
+          learningFactor = 0.025;
+          kickthreshhold = 0.005;
+        end
+        if (k < 4000)
           learningFactor = 0.05;
           kickthreshhold = 0.01;
-        end 
-        if (k < 200)
-          learningFactor = 0.01;
+        end
+        if (k < 1500)
+          learningFactor = 0.1;
           kickthreshhold = 0.05;
-        end 
+	end
+        if (k < 50)
+          learningFactor = 0.2;
+          kickthreshhold = 0.08;
+	end
+
       end
 
       oldPerceptron = p;
       %show the ECM
       %comment to improve performance
-      
+      %counterPatternSkipped = 0;
+
       arraydiff(k+1) = diff;
       if (diff > epsilon)
         for (i = evaluationPatternOrder')
           out = outMtx(i, 1);
+	     %if(true || abs(out-r(i)) > 0.01)
           	[p differentials(:, :, :, i)] = perceptronLearner(inMtx(i, :), outMtx(i, :), p, beta, learningFactor, func, derivatedFunc, 				alpha, differentials(:, :, :, i));
+ 	     %else
+              %counterPatternSkipped++;
+             %end
         end
       else
         break;
       end
   
-     if(k != 0 && mod(k,50) == 0)  
+     if(k != 0 && mod(k,15) == 0)  
       	printf("K= %d\t ECM %f\t Etha %f \n",k, diff,learningFactor);
+        %printf("SKipped %d\n", counterPatternSkipped); 
       	stats(p, inMtx, outMtx, testIn, testOut, beta, func, arraydiff);
       	disp(diff)
       	fflush(stdout);

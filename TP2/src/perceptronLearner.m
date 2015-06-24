@@ -13,19 +13,17 @@ function [modifiedPerceptron differ] = perceptronLearner(in, out, p, beta, learn
     S = out;
     Vi = result(numberOfLayers+1, :);
     Hi = layers(numberOfLayers+1, :);
-    GHi = derFunc(Hi, beta);
+    global betas;
+    GHi = derFunc(Hi, betas(numberOfLayers+1,:));
     last_deltas_index = numberOfLayers+1;
 
     % Calculate δ for OUT layer		
-    deltas(last_deltas_index, :) = [0 ((GHi)).*(S-Hi)];
+    deltas(last_deltas_index, :) = [0 ((GHi + 0.1)).*(S-Hi)];
     
-    		
-
     % Calculate remaining δ for internal layers
     for (i = [numberOfLayers:-1:1])
-       
         Hi = layers(i, :);
-        GHi = derFunc(Hi, beta);
+        GHi = derFunc(Hi, betas(i,:));
         next_delta = deltas(i+1, 2:layerSize+1);
         
         deltas(i, :) = ([0 (GHi)] .* ( next_delta * p(:, :, i)' ));

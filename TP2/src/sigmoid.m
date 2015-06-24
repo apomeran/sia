@@ -1,3 +1,3 @@
 function out = sigmoid(x, b)
-    out = tanh(b*x);
+    out = tanh(b.*x);
 end
